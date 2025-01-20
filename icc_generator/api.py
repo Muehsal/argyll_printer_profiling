@@ -207,12 +207,16 @@ class PaperSizeLibrary(object):
 
     p4x6 = PaperSize(name="4x6", width=101.6, height=152.4)
     p11x17 = PaperSize(name="11x17", width=279.4, height=431.8)
-    A2 = PaperSize(name="A2", width=420.0, height=594)
+    A2 = PaperSize(name="A2", width=420.0, height=594.0)
+    A2R = PaperSize(name="A2R", width=594.0, height=420.0)
     A3 = PaperSize(name="A3", width=297.0, height=420.0)
     A3R = PaperSize(name="A3R", width=420.0, height=297.0)
+    A3P = PaperSize(name="A3_Plus", width=329.0, height=483.0)
+    A3PR = PaperSize(name="A3_Plus_Landscape", width=483.0, height=329.0)
     A4 = PaperSize(name="A4", width=210.0, height=297.0)
     A4R = PaperSize(name="A4R", width=297.0, height=210.0)
     Legal = PaperSize(name="Legal", width=215.9, height=355.6)
+    LegalR = PaperSize(name="Legal", width=355.6, height=215.9)
     Letter = PaperSize(name="Letter", width=215.9, height=279.4)
     LetterR = PaperSize(name="LetterR", width=279.4, height=215.9)
 
@@ -220,11 +224,15 @@ class PaperSizeLibrary(object):
         "4x6": p4x6,
         "11x17": p11x17,
         "A2": A2,
+        "A2R": A2R,
         "A3": A3,
         "A3R": A3R,
+        "A3P": A3P,
+        "A3PR": A3PR,
         "A4": A4,
         "A4R": A4R,
         "Legal": Legal,
+        "LegalR": LegalR,
         "Letter": Letter,
         "LetterR": LetterR,
     }
@@ -334,11 +342,7 @@ class ICCGenerator(object):
                         / PaperSizeLibrary.paper_sizes["A4"].area
                         * PaperSizeLibrary.paper_sizes["11x17"].area
                     ),
-                    HIGH_DENSITY: int(
-                        672
-                        / PaperSizeLibrary.paper_sizes["A4"].area
-                        * PaperSizeLibrary.paper_sizes["11x17"].area
-                    ),
+                    HIGH_DENSITY: 1558,
                 }
             },
             PaperSizeLibrary.p4x6: {
@@ -348,11 +352,7 @@ class ICCGenerator(object):
                         / PaperSizeLibrary.paper_sizes["A4"].area
                         * PaperSizeLibrary.paper_sizes["4x6"].area
                     ),
-                    HIGH_DENSITY: int(
-                        672
-                        / PaperSizeLibrary.paper_sizes["A4"].area
-                        * PaperSizeLibrary.paper_sizes["4x6"].area
-                    ),
+                    HIGH_DENSITY:156,
                 }
             },
             PaperSizeLibrary.A2: {
@@ -362,35 +362,53 @@ class ICCGenerator(object):
                         / PaperSizeLibrary.paper_sizes["A3"].area
                         * PaperSizeLibrary.paper_sizes["A2"].area
                     ),
-                    HIGH_DENSITY: int(
-                        1392
+                    HIGH_DENSITY: 3364,
+                }
+            },
+            PaperSizeLibrary.A2R: {
+                "patch_count": {
+                    NORMAL_DENSITY: int(
+                        445
                         / PaperSizeLibrary.paper_sizes["A3"].area
                         * PaperSizeLibrary.paper_sizes["A2"].area
                     ),
+                    HIGH_DENSITY: 3320,
                 }
             },
             PaperSizeLibrary.A3: {
                 "patch_count": {
                     NORMAL_DENSITY: 445,
-                    HIGH_DENSITY: 1392,
+                    HIGH_DENSITY: 1640,
                 }
             },
             PaperSizeLibrary.A3R: {
                 "patch_count": {
                     NORMAL_DENSITY: 445,
-                    HIGH_DENSITY: 1392,
+                    HIGH_DENSITY: 1566,
+                }
+            },
+            PaperSizeLibrary.A3P: {
+                "patch_count": {
+                    NORMAL_DENSITY: 445,
+                    HIGH_DENSITY: 2115,
+                }
+            },
+            PaperSizeLibrary.A3PR: {
+                "patch_count": {
+                    NORMAL_DENSITY: 445,
+                    HIGH_DENSITY: 2077,
                 }
             },
             PaperSizeLibrary.A4: {
                 "patch_count": {
                     NORMAL_DENSITY: 210,
-                    HIGH_DENSITY: 672,
+                    HIGH_DENSITY: 756,
                 }
             },
             PaperSizeLibrary.A4R: {
                 "patch_count": {
                     NORMAL_DENSITY: 210,
-                    HIGH_DENSITY: 672,
+                    HIGH_DENSITY: 738,
                 }
             },
             PaperSizeLibrary.Legal: {
@@ -400,11 +418,17 @@ class ICCGenerator(object):
                         / PaperSizeLibrary.paper_sizes["A4"].area
                         * PaperSizeLibrary.paper_sizes["Legal"].area
                     ),
-                    HIGH_DENSITY: int(
-                        672
+                    HIGH_DENSITY: 957,
+                }
+            },
+            PaperSizeLibrary.LegalR: {
+                "patch_count": {
+                    NORMAL_DENSITY: int(
+                        210
                         / PaperSizeLibrary.paper_sizes["A4"].area
                         * PaperSizeLibrary.paper_sizes["Legal"].area
                     ),
+                    HIGH_DENSITY: 931,
                 }
             },
             PaperSizeLibrary.Letter: {
@@ -414,11 +438,7 @@ class ICCGenerator(object):
                         / PaperSizeLibrary.paper_sizes["A4"].area
                         * PaperSizeLibrary.paper_sizes["Letter"].area
                     ),
-                    HIGH_DENSITY: int(
-                        672
-                        / PaperSizeLibrary.paper_sizes["A4"].area
-                        * PaperSizeLibrary.paper_sizes["Letter"].area
-                    ),
+                    HIGH_DENSITY: 725,
                 }
             },
             PaperSizeLibrary.LetterR: {
@@ -428,11 +448,7 @@ class ICCGenerator(object):
                         / PaperSizeLibrary.paper_sizes["A4"].area
                         * PaperSizeLibrary.paper_sizes["LetterR"].area
                     ),
-                    HIGH_DENSITY: int(
-                        672
-                        / PaperSizeLibrary.paper_sizes["A4"].area
-                        * PaperSizeLibrary.paper_sizes["LetterR"].area
-                    ),
+                    HIGH_DENSITY: 722,
                 }
             },
         }
@@ -594,8 +610,8 @@ class ICCGenerator(object):
 
         self.ink_brand = data["ink_brand"]
         self.paper_brand = data["paper_brand"]
-        self.paper_finish = data["paper_finish"]
         self.paper_model = data["paper_model"]
+        self.paper_finish = data["paper_finish"]
         self.paper_size = PaperSizeLibrary.get_paper_size(data["paper_size"])
         self.printer_brand = data["printer_brand"]
         self.printer_model = data["printer_model"]
@@ -1114,6 +1130,7 @@ class ICCGenerator(object):
             "-T300",
             "-M2",
             "-L",
+            "-P",
             "-p",
             "{:0.1f}x{:0.1f}".format(*self.paper_size.size),
             str(self.profile_absolute_full_path),
