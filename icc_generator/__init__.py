@@ -10,8 +10,8 @@ from icc_generator.api import ICCGenerator, PaperSizeLibrary
 ig = ICCGenerator()
 
 # Set Printer Details
-ig.printer_brand = "Canon"
-ig.printer_model = "iX6850"
+ig.printer_brand = "Epson"
+ig.printer_model = "ET8550"
 
 # Set Paper Details
 ig.paper_brand = "Kodak"
@@ -20,7 +20,7 @@ ig.paper_finish = "Glossy"
 ig.paper_size = PaperSizeLibrary.A4  # Or generate a custom size.
 
 # Set Ink Details
-ig.ink_brand
+ig.ink_brand = "Epson"
 
 # Profiling workflow, run the following commands in the given order:
 ig.gray_patch_count = 128  # default is 128, which should be quite enough.
@@ -42,7 +42,7 @@ ig.install_profile()
 import logging
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.WARNING)
+logger.setLevel(logging.INFO)
 
 
 __version__ = "0.5.0"
