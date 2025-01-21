@@ -22,25 +22,26 @@ def file_collector():
     logger.debug("Removing collected file paths")
     for f in files_and_folders:
         f = os.path.expandvars(os.path.expanduser(f))
-        if os.path.exists(f):
-            logger.debug("removing: %s" % f)
-            if os.path.isdir(f):
+        if not os.path.exists(f):
+            continue
+        logger.debug("removing: %s" % f)
+        if os.path.isdir(f):
+            try:
+                os.removedirs(f)
+            except OSError:
+                pass
+                # the directory is not empty
+                # remove all the files under it
+                # and then try again
+                for d in glob.glob("%s/*" % f):
+                    # print("%s" % d)
+                    os.remove(d)
                 try:
                     os.removedirs(f)
                 except OSError:
                     pass
-                    # the directory is not empty
-                    # remove all the files under it
-                    # and then try again
-                    for d in glob.glob("%s/*" % f):
-                        # print("%s" % d)
-                        os.remove(d)
-                    try:
-                        os.removedirs(f)
-                    except OSError:
-                        pass
-            elif os.path.isfile(f):
-                os.remove(f)
+        elif os.path.isfile(f):
+            os.remove(f)
     logger.debug("End of collected file paths")
     logger.debug("===========================")
 

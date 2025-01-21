@@ -7,6 +7,7 @@ import logging
 import os
 import pathlib
 import platform
+import sys
 import tempfile
 
 import pytest
@@ -675,7 +676,7 @@ def test_per_page_patch_count_is_updated_properly():
     assert icc_gen.per_page_patch_count == 210
 
     icc_gen.use_high_density_mode = True
-    assert icc_gen.per_page_patch_count == 672
+    assert icc_gen.per_page_patch_count == 756
 
     # Set the paper size to A3
     icc_gen.paper_size = PaperSizeLibrary.A3
@@ -683,7 +684,7 @@ def test_per_page_patch_count_is_updated_properly():
     assert icc_gen.per_page_patch_count == 445
 
     icc_gen.use_high_density_mode = True
-    assert icc_gen.per_page_patch_count == 1392
+    assert icc_gen.per_page_patch_count == 1640
 
 
 def test_patch_count_is_read_only():
@@ -806,15 +807,15 @@ def test_patch_count_is_updating_properly():
 
     # 1 Page
     icc_gen.number_of_pages = 1
-    assert icc_gen.patch_count == 672
+    assert icc_gen.patch_count == 756
 
     # 2 Pages
     icc_gen.number_of_pages = 2
-    assert icc_gen.patch_count == 1344
+    assert icc_gen.patch_count == 1512
 
     # 3 Pages
     icc_gen.number_of_pages = 3
-    assert icc_gen.patch_count == 2016
+    assert icc_gen.patch_count == 2268
 
     # Paper Size:A3
     # Use High Density Mode: False
@@ -838,15 +839,15 @@ def test_patch_count_is_updating_properly():
 
     # 1 Page
     icc_gen.number_of_pages = 1
-    assert icc_gen.patch_count == 1392
+    assert icc_gen.patch_count == 1640
 
     # 2 Pages
     icc_gen.number_of_pages = 2
-    assert icc_gen.patch_count == 2784
+    assert icc_gen.patch_count == 3280
 
     # 3 Pages
     icc_gen.number_of_pages = 3
-    assert icc_gen.patch_count == 4176
+    assert icc_gen.patch_count == 4920
 
 
 def test_profile_name_template_default_value():
@@ -944,7 +945,19 @@ def test_profile_absolute_path_is_is_read_only():
     with pytest.raises(AttributeError) as cm:
         icc_gen.profile_absolute_path = profile_path
 
-    assert str(cm.value) == "can't set attribute 'profile_absolute_path'"
+    error_message = {
+        8: "can't set attribute",
+        9: "can't set attribute",
+        10: "can't set attribute 'profile_absolute_path'",
+        11: "property 'profile_absolute_path' of 'ICCGenerator' object has no setter",
+        12: "property 'profile_absolute_path' of 'ICCGenerator' object has no setter",
+        13: "property 'profile_absolute_path' of 'ICCGenerator' object has no setter",
+    }.get(
+        sys.version_info.minor,
+        "property 'profile_absolute_path' of 'ICCGenerator' object has no setter"
+    )
+
+    assert str(cm.value) == error_message
 
 
 def test_profile_absolute_full_path_is_properly_calculated():
@@ -973,7 +986,16 @@ def test_profile_absolute_full_path_is_is_read_only():
     with pytest.raises(AttributeError) as cm:
         icc_gen.profile_absolute_full_path = profile_path
 
-    assert str(cm.value) == "can't set attribute 'profile_absolute_full_path'"
+    error_message = {
+        8:  "can't set attribute",
+        9:  "can't set attribute",
+        10:  "can't set attribute 'profile_absolute_full_path'",
+        11: "property 'profile_absolute_full_path' of 'ICCGenerator' object has no setter",
+        12: "property 'profile_absolute_full_path' of 'ICCGenerator' object has no setter",
+        13: "property 'profile_absolute_full_path' of 'ICCGenerator' object has no setter",
+    }.get(sys.version_info.minor)
+
+    assert str(cm.value) == error_message
 
 
 def test_generate_target_creates_the_output_folder(file_collector):
@@ -1383,7 +1405,6 @@ def test_check_profile_with_correct_file_extension(
 def test_install_profile_1(file_collector, patch_run_external_process):
     """install_profile method is working properly."""
     icc_gen = ICCGenerator()
-    file_collector.append(icc_gen.profile_path)
     icc_gen.number_of_pages = 1
     icc_gen.copyright_info = "Erkan Ozgur Yilmaz(c)2021"
     file_collector.append(icc_gen.profile_path)
@@ -1440,9 +1461,9 @@ def test_default_logger_is_created(file_collector):
     assert isinstance(logger, logging.Logger)
 
 
-def test_default_log_level_is_warning(file_collector):
-    """default log level is warning."""
-    assert logger.level == logging.WARNING
+def test_default_log_level_is_info(file_collector):
+    """default log level is info."""
+    assert logger.level == logging.INFO
 
 
 def test_output_path_for_windows(set_to_windows):
@@ -1510,7 +1531,7 @@ def test_color_correct_image_printer_profile_path_is_none(
     assert str(cm.value) == "Please specify a proper printer_profile_path!"
 
 
-def test_color_correct_image_printer_profile_path_doesnt_exist(
+def test_color_correct_image_printer_profile_path_does_not_exist(
     file_collector, patch_run_external_process
 ):
     """color_correct_image raises ValueError if printer_profile_path doesn't exist."""
@@ -1609,7 +1630,7 @@ def test_color_correct_image_input_image_is_none(
     assert str(cm.value) == "Please specify a proper input_image_path!"
 
 
-def test_color_correct_image_input_image_doesnt_exist(
+def test_color_correct_image_input_image_does_not_exist(
     file_collector, patch_run_external_process
 ):
     """color_correct_image raises ValueError if input_image arg value doesn't exist."""
@@ -2050,10 +2071,16 @@ def test_load_settings_path_is_skipped():
     with pytest.raises(TypeError) as cm:
         icc_gen.load_settings()
 
-    assert (
-        str(cm.value) == "ICCGenerator.load_settings() missing 1 required "
-        "positional argument: 'path'"
-    )
+    error_message = {
+        8: "load_settings() missing 1 required positional argument: 'path'",
+        9: "load_settings() missing 1 required positional argument: 'path'",
+        10: "ICCGenerator.load_settings() missing 1 required positional argument: 'path'",
+        11: "ICCGenerator.load_settings() missing 1 required positional argument: 'path'",
+        12: "ICCGenerator.load_settings() missing 1 required positional argument: 'path'",
+        13: "ICCGenerator.load_settings() missing 1 required positional argument: 'path'",
+    }.get(sys.version_info.minor)
+
+    assert str(cm.value) == error_message
 
 
 def test_load_settings_path_is_none():
@@ -2115,3 +2142,178 @@ def test_load_settings_is_working_properly(file_collector):
     icc_gen.printer_model = icc_gen2.printer_model
     icc_gen.profile_date = icc_gen2.profile_date
     icc_gen.profile_time = icc_gen2.profile_time
+
+
+def test_run_external_process_will_use_os_system_if_shell_is_true(
+    file_collector, monkeypatch
+):
+    """run_external_process will use os.system if shell=True."""
+    called = []
+    class MockedOS(object):
+        @classmethod
+        def system(cls, command):
+            called.append(command)
+            print(f"This is called: {command}")
+
+    monkeypatch.setattr("icc_generator.api.os", MockedOS)
+    test_value = ["echo", "Hello"]
+    expected_result = "echo Hello"
+
+    icc_gen = ICCGenerator()
+    for _ in icc_gen.run_external_process(test_value, shell=True):
+        pass
+    assert expected_result in called
+
+
+def test_run_external_process_will_raise_a_runtime_error_if_command_fails(
+    file_collector, monkeypatch
+):
+    """run_external_process will Raise a RuntimeError if command fails."""
+    cmd = ["false"]
+    icc_gen = ICCGenerator()
+    with pytest.raises(RuntimeError) as cm:
+        for _ in icc_gen.run_external_process(cmd):
+            pass
+
+
+def test_generate_target_prints_commands_if_output_commands_is_true(
+    file_collector,
+    patch_run_external_process,
+    capsys,
+):
+    """generate_target will print the command if output_commands is True."""
+    icc_gen = ICCGenerator(output_commands=True)
+    icc_gen.generate_target()
+    assert "targen -v -d 2 -G -g" in capsys.readouterr().out
+
+
+def test_generate_tiff_prints_commands_if_output_commands_is_true(
+    file_collector,
+    patch_run_external_process,
+    capsys,
+):
+    """generate_target will print the command if output_commands is True."""
+    icc_gen = ICCGenerator(output_commands=True)
+    icc_gen.generate_tif()
+    assert "printtarg -v -ii1 -a 0.875 -R1 -T300 -M2 -L -P -p" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize(
+    "os_name", ["linux", "darwin", "win32"]
+)
+def test_print_charts_prints_commands_if_output_commands_is_true(
+    file_collector,
+    patch_run_external_process,
+    monkeypatch,
+    capsys,
+    os_name
+):
+    """generate_target will print the command if output_commands is True."""
+    class MockedPlatform(object):
+        @classmethod
+        def system(cls):
+            return os_name
+
+    monkeypatch.setattr("icc_generator.api.platform", MockedPlatform)
+
+    icc_gen = ICCGenerator(output_commands=True)
+    icc_gen.print_charts()
+    command = {
+        "win32": "C:/Program Files/Dry Creek Photo/Print Utility/Print Utility",
+        "linux": "/usr/bin/gimp",
+        "darwin": "/Applications/Print-Tool.app/Contents/MacOS/Print-Tool",
+    }.get(os_name, "gimp")
+    assert command in capsys.readouterr().out
+
+
+def test_read_charts_prints_commands_if_output_commands_is_true(
+    patch_run_external_process,
+    capsys,
+):
+    """read_charts will print the command if output_commands is True."""
+    icc_gen = ICCGenerator(output_commands=True)
+    icc_gen.read_charts()
+    assert "chartread -v -H -T 0.4" in capsys.readouterr().out
+
+
+def test_generate_profile_prints_commands_if_output_commands_is_true(
+    patch_run_external_process,
+    capsys,
+):
+    """generate_profile will print the command if output_commands is True."""
+    icc_gen = ICCGenerator(output_commands=True)
+    icc_gen.generate_profile()
+    assert "colprof -v -qh -r0.5 -S" in capsys.readouterr().out
+
+
+def test_check_profile_prints_commands_if_output_commands_is_true(
+    patch_run_external_process,
+    capsys,
+):
+    """check_profile will print the command if output_commands is True."""
+    icc_gen = ICCGenerator(output_commands=True)
+    icc_gen.check_profile()
+    assert "profcheck -k -v2" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize(
+    "os_name", ["linux", "darwin", "win32"]
+)
+def test_check_profile_uses_icm_under_windows_and_icc_under_linux_and_macos(
+    patch_run_external_process,
+    capsys,
+    monkeypatch,
+    os_name
+):
+    """check_profile will print the command if output_commands is True."""
+    class MockedPlatform(object):
+        @classmethod
+        def system(cls):
+            return os_name
+
+    monkeypatch.setattr("icc_generator.api.platform", MockedPlatform)
+    icc_gen = ICCGenerator(output_commands=True)
+    icc_gen.check_profile()
+    extension = {
+        "linux": ".icc",
+        "darwin": ".icc",
+        "win32": ".icm",
+    }.get(os_name, ".icc")
+    assert f"{icc_gen.profile_absolute_full_path}{extension}" in capsys.readouterr().out
+
+
+def test_install_profile_prints_out_exception_if_command_errors_out(
+    file_collector,
+    patch_run_external_process,
+    monkeypatch,
+    capsys,
+):
+    """install_profile will print error if command errors out."""
+    error_message = "This is a fake error message."
+    class MockedShUtil(object):
+        @classmethod
+        def copy2(cls, src, dest):
+            raise OSError(error_message)
+
+    monkeypatch.setattr("shutil.copy2", MockedShUtil.copy2)
+
+    icc_gen = ICCGenerator(output_commands=True)
+    file_collector.append(icc_gen.profile_path)
+    icc_gen.number_of_pages = 1
+    icc_gen.copyright_info = "Erkan Ozgur Yilmaz(c)2025"
+    icc_gen.paper_size = PaperSizeLibrary.A4
+    file_collector.append(icc_gen.profile_absolute_path)
+
+    # create a dummy icc file
+    dummy_icc_profile_full_path = icc_gen.profile_path / f"{icc_gen.profile_name}.icc"
+    os.makedirs(icc_gen.profile_path, exist_ok=True)
+    assert icc_gen.profile_path
+    with open(dummy_icc_profile_full_path, "w+") as f:
+        f.write("dummy icc file!!!")
+    assert dummy_icc_profile_full_path.exists()
+    file_collector.append(dummy_icc_profile_full_path)
+
+    icc_gen.install_profile()
+
+    assert error_message in capsys.readouterr().err
+

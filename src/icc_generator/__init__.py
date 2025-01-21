@@ -41,10 +41,13 @@ ig.install_profile()
 """
 import logging
 
+from icc_generator.version import __version__
+
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-__version__ = "0.5.0"
+
 
 
