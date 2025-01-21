@@ -1106,6 +1106,9 @@ class ICCGenerator(object):
             command += ["-c", self.precondition_profile_path]
         command += [str(self.profile_absolute_full_path)]
 
+        # create the profile path
+        os.makedirs(self.output_path, exist_ok=True)
+
         # first call the targen command
         # yield from self.run_external_process(command)
         if self.output_commands:
@@ -1321,6 +1324,8 @@ class ICCGenerator(object):
             raise RuntimeError("ICC file doesn't exist, please generate it first!")
 
         profile_install_path = self.output_path / f"{self.profile_name}.icc"
+        # create the output folder first
+        os.makedirs(self.output_path, exist_ok=True)
         try:
             shutil.copy2(icc_profile_absolute_full_path, profile_install_path)
         except Exception:
