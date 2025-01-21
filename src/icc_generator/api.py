@@ -1106,6 +1106,9 @@ class ICCGenerator(object):
             command += ["-c", self.precondition_profile_path]
         command += [str(self.profile_absolute_full_path)]
 
+        # create the profile path
+        os.makedirs(self.profile_absolute_path, exist_ok=True)
+
         # first call the targen command
         # yield from self.run_external_process(command)
         if self.output_commands:
