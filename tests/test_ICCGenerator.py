@@ -946,10 +946,10 @@ def test_profile_absolute_path_is_is_read_only():
         icc_gen.profile_absolute_path = profile_path
 
     error_message = {
-        8: "can't set attribute 'profile_absolute_path'",
-        9: "can't set attribute 'profile_absolute_path'",
+        8: "can't set attribute",
+        9: "can't set attribute",
         10: "can't set attribute 'profile_absolute_path'",
-        11: "can't set attribute 'profile_absolute_path'",
+        11: "property 'profile_absolute_path' of 'ICCGenerator' object has no setter",
         12: "property 'profile_absolute_path' of 'ICCGenerator' object has no setter",
         13: "property 'profile_absolute_path' of 'ICCGenerator' object has no setter",
     }.get(
@@ -987,13 +987,13 @@ def test_profile_absolute_full_path_is_is_read_only():
         icc_gen.profile_absolute_full_path = profile_path
 
     error_message = {
-        8:  "can't set attribute 'profile_absolute_full_path'",
-        9:  "can't set attribute 'profile_absolute_full_path'",
+        8:  "can't set attribute",
+        9:  "can't set attribute",
         10:  "can't set attribute 'profile_absolute_full_path'",
-    }.get(
-        sys.version_info.minor,
-        "property 'profile_absolute_full_path' of 'ICCGenerator' object has no setter"
-    )
+        11: "property 'profile_absolute_full_path' of 'ICCGenerator' object has no setter",
+        12: "property 'profile_absolute_full_path' of 'ICCGenerator' object has no setter",
+        13: "property 'profile_absolute_full_path' of 'ICCGenerator' object has no setter",
+    }.get(sys.version_info.minor)
 
     assert str(cm.value) == error_message
 
@@ -2071,10 +2071,16 @@ def test_load_settings_path_is_skipped():
     with pytest.raises(TypeError) as cm:
         icc_gen.load_settings()
 
-    assert (
-        str(cm.value) == "ICCGenerator.load_settings() missing 1 required "
-        "positional argument: 'path'"
-    )
+    error_message = {
+        8: "load_settings() missing 1 required positional argument: 'path'",
+        9: "load_settings() missing 1 required positional argument: 'path'",
+        10: "ICCGenerator.load_settings() missing 1 required positional argument: 'path'",
+        11: "ICCGenerator.load_settings() missing 1 required positional argument: 'path'",
+        12: "ICCGenerator.load_settings() missing 1 required positional argument: 'path'",
+        13: "ICCGenerator.load_settings() missing 1 required positional argument: 'path'",
+    }.get(sys.version_info.minor)
+
+    assert str(cm.value) == error_message
 
 
 def test_load_settings_path_is_none():

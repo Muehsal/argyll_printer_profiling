@@ -9,7 +9,7 @@ import platform
 import shutil
 import subprocess
 import traceback
-from typing import Union
+from typing import Tuple, Union
 
 from icc_generator import logger
 
@@ -127,7 +127,7 @@ class PaperSize(object):
         self._height = height
 
     @property
-    def size(self) -> tuple[float, float]:
+    def size(self) -> Tuple[float, float]:
         """Return the width and height as a list.
 
         Returns:

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Tests for the PaperSize class."""
 
+import sys
 import pytest
 
 from icc_generator.api import PaperSize
@@ -16,10 +17,17 @@ def test_name_arg_is_skipped():
     """TypeError raised if name arg is skipped."""
     with pytest.raises(TypeError) as cm:
         _ = PaperSize(width=210, height=297)
-    assert (
-        str(cm.value)
-        == "PaperSize.__init__() missing 1 required positional argument: 'name'"
-    )
+
+    error_message = {
+        8: "__init__() missing 1 required positional argument: 'name'",
+        9: "__init__() missing 1 required positional argument: 'name'",
+        10: "PaperSize.__init__() missing 1 required positional argument: 'name'",
+        11: "PaperSize.__init__() missing 1 required positional argument: 'name'",
+        12: "PaperSize.__init__() missing 1 required positional argument: 'name'",
+        13: "PaperSize.__init__() missing 1 required positional argument: 'name'",
+    }.get(sys.version_info.minor)
+
+    assert str(cm.value) == error_message
 
 
 def test_name_arg_is_not_a_str():
@@ -41,10 +49,17 @@ def test_width_arg_is_skipped():
     """TypeError raised if width arg is skipped."""
     with pytest.raises(TypeError) as cm:
         _ = PaperSize(name="A4", height=297)
-    assert (
-        str(cm.value)
-        == "PaperSize.__init__() missing 1 required positional argument: 'width'"
-    )
+
+    error_message = {
+        8: "__init__() missing 1 required positional argument: 'width'",
+        9: "__init__() missing 1 required positional argument: 'width'",
+        10: "PaperSize.__init__() missing 1 required positional argument: 'width'",
+        11: "PaperSize.__init__() missing 1 required positional argument: 'width'",
+        12: "PaperSize.__init__() missing 1 required positional argument: 'width'",
+        13: "PaperSize.__init__() missing 1 required positional argument: 'width'",
+    }.get(sys.version_info.minor)
+
+    assert str(cm.value) == error_message
 
 
 def test_width_arg_is_not_a_int_or_float():
@@ -67,6 +82,7 @@ def test_width_arg_is_not_positive(width):
     """ValueError raised if width arg is not a positive value."""
     with pytest.raises(ValueError) as cm:
         _ = PaperSize(name="A4", width=width, height=297)
+
     assert str(cm.value) == "PaperSize.width should be a positive value, not {}".format(
         width
     )
@@ -87,10 +103,17 @@ def test_height_arg_is_skipped():
     """TypeError raised if height arg is skipped."""
     with pytest.raises(TypeError) as cm:
         _ = PaperSize(name="A4", width=210)
-    assert (
-        str(cm.value)
-        == "PaperSize.__init__() missing 1 required positional argument: 'height'"
-    )
+
+    error_message = {
+        8: "__init__() missing 1 required positional argument: 'height'",
+        9: "__init__() missing 1 required positional argument: 'height'",
+        10: "PaperSize.__init__() missing 1 required positional argument: 'height'",
+        11: "PaperSize.__init__() missing 1 required positional argument: 'height'",
+        12: "PaperSize.__init__() missing 1 required positional argument: 'height'",
+        13: "PaperSize.__init__() missing 1 required positional argument: 'height'",
+    }.get(sys.version_info.minor)
+
+    assert str(cm.value) == error_message
 
 
 def test_height_arg_is_not_a_int_or_float():
