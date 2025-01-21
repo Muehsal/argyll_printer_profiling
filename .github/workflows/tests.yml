@@ -37,6 +37,11 @@ jobs:
           echo "add_dir_str=cpython-313" >> $GITHUB_ENV
         fi
 
+    - name: Setup ArgyllCMS
+      run: |
+        sudo apt-get install -y argyll
+        sudo apt-get install -y argyll-ref
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
