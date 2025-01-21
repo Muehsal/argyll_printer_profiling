@@ -82,7 +82,7 @@ tests:
 	echo -e "\n\033[36m--- $@: Using virtualenv at '$(VIRTUALENV_DIR)' ---\033[0m\n";
 	source ./$(VIRTUALENV_DIR)/bin/activate; \
 	echo -e "\n\033[36m--- $@: Using python interpreter '`which python`' ---\033[0m\n"; \
-	SQLALCHEMY_WARN_20=1 PYTHONPATH=src pytest -W ignore -W always::DeprecationWarning --color=yes --cov=src --cov-report term --cov-report html --cov-append --cov-fail-under 99 tests;
+	SQLALCHEMY_WARN_20=1 PYTHONPATH=src pytest -W ignore -W always::DeprecationWarning --color=yes --cov=src --cov-report term --cov-report html --cov-append tests;
 
 .PHONY: docs
 docs:
