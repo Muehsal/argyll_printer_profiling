@@ -7,6 +7,7 @@ import logging
 import os
 import pathlib
 import platform
+import sys
 import tempfile
 
 import pytest
@@ -675,7 +676,7 @@ def test_per_page_patch_count_is_updated_properly():
     assert icc_gen.per_page_patch_count == 210
 
     icc_gen.use_high_density_mode = True
-    assert icc_gen.per_page_patch_count == 672
+    assert icc_gen.per_page_patch_count == 756
 
     # Set the paper size to A3
     icc_gen.paper_size = PaperSizeLibrary.A3
@@ -683,7 +684,7 @@ def test_per_page_patch_count_is_updated_properly():
     assert icc_gen.per_page_patch_count == 445
 
     icc_gen.use_high_density_mode = True
-    assert icc_gen.per_page_patch_count == 1392
+    assert icc_gen.per_page_patch_count == 1640
 
 
 def test_patch_count_is_read_only():
@@ -806,15 +807,15 @@ def test_patch_count_is_updating_properly():
 
     # 1 Page
     icc_gen.number_of_pages = 1
-    assert icc_gen.patch_count == 672
+    assert icc_gen.patch_count == 756
 
     # 2 Pages
     icc_gen.number_of_pages = 2
-    assert icc_gen.patch_count == 1344
+    assert icc_gen.patch_count == 1512
 
     # 3 Pages
     icc_gen.number_of_pages = 3
-    assert icc_gen.patch_count == 2016
+    assert icc_gen.patch_count == 2268
 
     # Paper Size:A3
     # Use High Density Mode: False
@@ -838,15 +839,15 @@ def test_patch_count_is_updating_properly():
 
     # 1 Page
     icc_gen.number_of_pages = 1
-    assert icc_gen.patch_count == 1392
+    assert icc_gen.patch_count == 1640
 
     # 2 Pages
     icc_gen.number_of_pages = 2
-    assert icc_gen.patch_count == 2784
+    assert icc_gen.patch_count == 3280
 
     # 3 Pages
     icc_gen.number_of_pages = 3
-    assert icc_gen.patch_count == 4176
+    assert icc_gen.patch_count == 4920
 
 
 def test_profile_name_template_default_value():
@@ -944,7 +945,19 @@ def test_profile_absolute_path_is_is_read_only():
     with pytest.raises(AttributeError) as cm:
         icc_gen.profile_absolute_path = profile_path
 
-    assert str(cm.value) == "can't set attribute 'profile_absolute_path'"
+    error_message = {
+        8: "can't set attribute 'profile_absolute_path'",
+        9: "can't set attribute 'profile_absolute_path'",
+        10: "can't set attribute 'profile_absolute_path'",
+        11: "can't set attribute 'profile_absolute_path'",
+        12: "property 'profile_absolute_path' of 'ICCGenerator' object has no setter",
+        13: "property 'profile_absolute_path' of 'ICCGenerator' object has no setter",
+    }.get(
+        sys.version_info.minor,
+        "property 'profile_absolute_path' of 'ICCGenerator' object has no setter"
+    )
+
+    assert str(cm.value) == error_message
 
 
 def test_profile_absolute_full_path_is_properly_calculated():
@@ -973,7 +986,16 @@ def test_profile_absolute_full_path_is_is_read_only():
     with pytest.raises(AttributeError) as cm:
         icc_gen.profile_absolute_full_path = profile_path
 
-    assert str(cm.value) == "can't set attribute 'profile_absolute_full_path'"
+    error_message = {
+        8:  "can't set attribute 'profile_absolute_full_path'",
+        9:  "can't set attribute 'profile_absolute_full_path'",
+        10:  "can't set attribute 'profile_absolute_full_path'",
+    }.get(
+        sys.version_info.minor,
+        "property 'profile_absolute_full_path' of 'ICCGenerator' object has no setter"
+    )
+
+    assert str(cm.value) == error_message
 
 
 def test_generate_target_creates_the_output_folder(file_collector):
@@ -1440,9 +1462,9 @@ def test_default_logger_is_created(file_collector):
     assert isinstance(logger, logging.Logger)
 
 
-def test_default_log_level_is_warning(file_collector):
-    """default log level is warning."""
-    assert logger.level == logging.WARNING
+def test_default_log_level_is_info(file_collector):
+    """default log level is info."""
+    assert logger.level == logging.INFO
 
 
 def test_output_path_for_windows(set_to_windows):
