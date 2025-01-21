@@ -1059,7 +1059,10 @@ class ICCGenerator(object):
         Yields:
             str: The command output.
         """
-        if not shell:
+        if shell:
+            command = " ".join(command)
+            yield os.system(command)
+        else:
             process = subprocess.Popen(command, stderr=subprocess.PIPE)
             # loop until process finishes and capture stderr output
             stderr_buffer = []
@@ -1081,9 +1084,6 @@ class ICCGenerator(object):
             if return_code:
                 # there is an error
                 raise RuntimeError(stderr_buffer)
-        else:
-            command = " ".join(command)
-            os.system(command)
 
     def generate_target(self):
         """Generate the required ti1 file."""
@@ -1181,7 +1181,7 @@ class ICCGenerator(object):
             # if it fails then try to call ACPU
             # if this fails too, raise a RuntimeError
             # TODO: implement and test this on Windows
-            pass
+            command = ["C:/Program Files/Dry Creek Photo/Print Utility/Print Utility"]
         elif "linux" in system_name:  # Linux
             # call Gimp with the TIFF Files
             command = ["/usr/bin/gimp"] + self.tif_files
