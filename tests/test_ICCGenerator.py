@@ -21,8 +21,8 @@ def test_initializing_without_any_args():
     icc_gen = ICCGenerator()
 
     # check default values
-    assert icc_gen.printer_brand == "Canon"
-    assert icc_gen.printer_model == "iX6850"
+    assert icc_gen.printer_brand == "Epson"
+    assert icc_gen.printer_model == "ET-8550"
     assert icc_gen.paper_brand == "Kodak"
     assert icc_gen.paper_model == "UPPP"
     assert icc_gen.paper_finish == "Glossy"
@@ -36,7 +36,7 @@ def test_initializing_without_any_args():
 def test_printer_brand_arg_is_skipped():
     """Default value is used if printer_brand arg is skipped."""
     icc_gen = ICCGenerator()
-    assert icc_gen.printer_brand == "Canon"
+    assert icc_gen.printer_brand == "Epson"
 
 
 def test_printer_brand_arg_is_none():
@@ -79,7 +79,7 @@ def test_printer_brand_arg_is_working_properly():
 
 def test_printer_brand_attr_is_working_properly():
     """printer_brand attr is working properly."""
-    test_value = "Epson"
+    test_value = "Canon"
     icc_gen = ICCGenerator()
     assert icc_gen.printer_brand != test_value
     icc_gen.printer_brand = test_value
@@ -89,7 +89,7 @@ def test_printer_brand_attr_is_working_properly():
 def test_printer_model_arg_is_skipped():
     """default value is used if printer_model arg is skipped."""
     icc_gen = ICCGenerator()
-    assert icc_gen.printer_model == "iX6850"
+    assert icc_gen.printer_model == "ET-8550"
 
 
 def test_printer_model_arg_is_none():
@@ -366,8 +366,8 @@ def test_paper_size_attr_is_set_to_none():
     with pytest.raises(TypeError) as cm:
         icc_gen.paper_size = None
     assert (
-        str(cm.value) ==
-        "ICCGenerator.paper_size should be a PaperSize instance, not NoneType"
+        str(cm.value)
+        == "ICCGenerator.paper_size should be a PaperSize instance, not NoneType"
     )
 
 
@@ -653,7 +653,7 @@ def test_initializing_non_default_values():
 
     assert icc_gen.profile_date == date_str
     assert icc_gen.profile_time == time_str
-    profile_name = "Canon_iX6850_Kodak_UPPP_Glossy_A4_CanonInk_%s_%s" % (
+    profile_name = "Epson_ET-8550_Kodak_UPPP_Glossy_A4_CanonInk_%s_%s" % (
         date_str,
         time_str,
     )
@@ -673,15 +673,15 @@ def test_per_page_patch_count_is_updated_properly():
     # Set the paper size to A4
     icc_gen.paper_size = PaperSizeLibrary.A4
     icc_gen.use_high_density_mode = False
-    assert icc_gen.per_page_patch_count == 210
+    assert icc_gen.per_page_patch_count == 196
 
     icc_gen.use_high_density_mode = True
-    assert icc_gen.per_page_patch_count == 756
+    assert icc_gen.per_page_patch_count == 728
 
     # Set the paper size to A3
     icc_gen.paper_size = PaperSizeLibrary.A3
     icc_gen.use_high_density_mode = False
-    assert icc_gen.per_page_patch_count == 445
+    assert icc_gen.per_page_patch_count == 483
 
     icc_gen.use_high_density_mode = True
     assert icc_gen.per_page_patch_count == 1640
@@ -792,30 +792,30 @@ def test_patch_count_is_updating_properly():
 
     # 1 Page
     icc_gen.number_of_pages = 1
-    assert icc_gen.patch_count == 210
+    assert icc_gen.patch_count == 196
 
     # 2 Pages
     icc_gen.number_of_pages = 2
-    assert icc_gen.patch_count == 420
+    assert icc_gen.patch_count == 392
 
     # 3 Pages
     icc_gen.number_of_pages = 3
-    assert icc_gen.patch_count == 630
+    assert icc_gen.patch_count == 588
 
     # Use High Density Mode: True
     icc_gen.use_high_density_mode = True
 
     # 1 Page
     icc_gen.number_of_pages = 1
-    assert icc_gen.patch_count == 756
+    assert icc_gen.patch_count == 728
 
     # 2 Pages
     icc_gen.number_of_pages = 2
-    assert icc_gen.patch_count == 1512
+    assert icc_gen.patch_count == 1456
 
     # 3 Pages
     icc_gen.number_of_pages = 3
-    assert icc_gen.patch_count == 2268
+    assert icc_gen.patch_count == 2184
 
     # Paper Size:A3
     # Use High Density Mode: False
@@ -824,15 +824,15 @@ def test_patch_count_is_updating_properly():
 
     # 1 Page
     icc_gen.number_of_pages = 1
-    assert icc_gen.patch_count == 445
+    assert icc_gen.patch_count == 483
 
     # 2 Pages
     icc_gen.number_of_pages = 2
-    assert icc_gen.patch_count == 890
+    assert icc_gen.patch_count == 966
 
     # 3 Pages
     icc_gen.number_of_pages = 3
-    assert icc_gen.patch_count == 1335
+    assert icc_gen.patch_count == 1449
 
     # Use High Density Mode: True
     icc_gen.use_high_density_mode = True
@@ -870,7 +870,7 @@ def test_profile_name_default_value_is_properly_calculated():
 
     assert icc_gen.profile_date == date_str
     assert icc_gen.profile_time == time_str
-    profile_name = "Canon_iX6850_Kodak_UPPP_Glossy_A4_CanonInk_%s_%s" % (
+    profile_name = "Epson_ET-8550_Kodak_UPPP_Glossy_A4_CanonInk_%s_%s" % (
         date_str,
         time_str,
     )
@@ -906,7 +906,9 @@ def test_profile_path_default_value_is_properly_calculated():
 
     assert icc_gen.profile_date == date_str
     assert icc_gen.profile_time == time_str
-    profile_path = pathlib.Path(f"~/.cache/ICCGenerator/Canon_iX6850/{date_str}").expanduser()
+    profile_path = pathlib.Path(
+        f"~/.cache/ICCGenerator/Epson_ET-8550/{date_str}"
+    ).expanduser()
     assert icc_gen.profile_path == profile_path
 
 
@@ -928,7 +930,9 @@ def test_profile_absolute_path_is_properly_calculated():
 
     assert icc_gen.profile_date == date_str
     assert icc_gen.profile_time == time_str
-    profile_path = pathlib.Path(f"~/.cache/ICCGenerator/Canon_iX6850/{date_str}").expanduser()
+    profile_path = pathlib.Path(
+        f"~/.cache/ICCGenerator/Epson_ET-8550/{date_str}"
+    ).expanduser()
     assert icc_gen.profile_absolute_path == profile_path
 
 
@@ -941,7 +945,9 @@ def test_profile_absolute_path_is_is_read_only():
 
     assert icc_gen.profile_date == date_str
     assert icc_gen.profile_time == time_str
-    profile_path = pathlib.Path(f"~/.cache/ICCGenerator/Canon_iX6850/{date_str}").expanduser()
+    profile_path = pathlib.Path(
+        f"~/.cache/ICCGenerator/Epson_ET-8550/{date_str}"
+    ).expanduser()
     with pytest.raises(AttributeError) as cm:
         icc_gen.profile_absolute_path = profile_path
 
@@ -954,7 +960,7 @@ def test_profile_absolute_path_is_is_read_only():
         13: "property 'profile_absolute_path' of 'ICCGenerator' object has no setter",
     }.get(
         sys.version_info.minor,
-        "property 'profile_absolute_path' of 'ICCGenerator' object has no setter"
+        "property 'profile_absolute_path' of 'ICCGenerator' object has no setter",
     )
 
     assert str(cm.value) == error_message
@@ -969,7 +975,9 @@ def test_profile_absolute_full_path_is_properly_calculated():
 
     assert icc_gen.profile_date == date_str
     assert icc_gen.profile_time == time_str
-    profile_path = pathlib.Path(f"~/.cache/ICCGenerator/Canon_iX6850/{date_str}").expanduser()
+    profile_path = pathlib.Path(
+        f"~/.cache/ICCGenerator/Epson_ET-8550/{date_str}"
+    ).expanduser()
     assert icc_gen.profile_absolute_full_path == profile_path / icc_gen.profile_name
 
 
@@ -982,17 +990,22 @@ def test_profile_absolute_full_path_is_is_read_only():
 
     assert icc_gen.profile_date == date_str
     assert icc_gen.profile_time == time_str
-    profile_path = pathlib.Path(f"~/.cache/ICCGenerator/Canon_iX6850/{date_str}").expanduser()
+    profile_path = pathlib.Path(
+        f"~/.cache/ICCGenerator/Canon_iX6850/{date_str}"
+    ).expanduser()
     with pytest.raises(AttributeError) as cm:
         icc_gen.profile_absolute_full_path = profile_path
 
     error_message = {
-        8:  "can't set attribute",
-        9:  "can't set attribute",
-        10:  "can't set attribute 'profile_absolute_full_path'",
-        11: "property 'profile_absolute_full_path' of 'ICCGenerator' object has no setter",
-        12: "property 'profile_absolute_full_path' of 'ICCGenerator' object has no setter",
-        13: "property 'profile_absolute_full_path' of 'ICCGenerator' object has no setter",
+        8: "can't set attribute",
+        9: "can't set attribute",
+        10: "can't set attribute 'profile_absolute_full_path'",
+        11: "property 'profile_absolute_full_path' of 'ICCGenerator' "
+        "object has no setter",
+        12: "property 'profile_absolute_full_path' of 'ICCGenerator' "
+        "object has no setter",
+        13: "property 'profile_absolute_full_path' of 'ICCGenerator' "
+        "object has no setter",
     }.get(sys.version_info.minor)
 
     assert str(cm.value) == error_message
@@ -1000,7 +1013,7 @@ def test_profile_absolute_full_path_is_is_read_only():
 
 def test_generate_target_creates_the_output_folder(file_collector):
     """generate_target will create the output folder."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     # There should be files under the temp folder
     # check them
     # set it to use only one A4 page
@@ -1013,7 +1026,7 @@ def test_generate_target_creates_the_output_folder(file_collector):
 
 def test_generate_target_generates_ti_file(file_collector):
     """generate_target will generate ti file."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     # There should be files under the temp folder
     # check them
     # set it to use only one A4 page
@@ -1024,11 +1037,16 @@ def test_generate_target_generates_ti_file(file_collector):
     assert (icc_gen.profile_path / f"{icc_gen.profile_name}.ti1").exists()
 
 
-def test_generate_target_with_precondition_profile_arg(file_collector, patch_run_external_process):
+def test_generate_target_with_precondition_profile_arg(
+    file_collector, patch_run_external_process
+):
     """generate_target will generate ti file."""
     commands = patch_run_external_process
     precondition_profile_path = "pre_condition_profile_path.icc"
-    icc_gen = ICCGenerator(precondition_profile_path=precondition_profile_path)
+    icc_gen = ICCGenerator(
+        printer_brand="RandomPrinterBrand",
+        precondition_profile_path=precondition_profile_path,
+    )
     # set it to use only one A4 page
     icc_gen.number_of_pages = 1
     icc_gen.paper_size = PaperSizeLibrary.A4
@@ -1037,11 +1055,13 @@ def test_generate_target_with_precondition_profile_arg(file_collector, patch_run
     assert precondition_profile_path in commands[-1]
 
 
-def test_generate_target_with_precondition_profile_attr(file_collector, patch_run_external_process):
+def test_generate_target_with_precondition_profile_attr(
+    file_collector, patch_run_external_process
+):
     """generate_target will generate ti file."""
     commands = patch_run_external_process
     precondition_profile_path = "pre_condition_profile_path.icc"
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     icc_gen.precondition_profile_path = precondition_profile_path
     # set it to use only one A4 page
     icc_gen.number_of_pages = 1
@@ -1051,11 +1071,13 @@ def test_generate_target_with_precondition_profile_attr(file_collector, patch_ru
     assert precondition_profile_path in commands[-1]
 
 
-def test_generate_target_without_precondition_profile_attr(file_collector, patch_run_external_process):
+def test_generate_target_without_precondition_profile_attr(
+    file_collector, patch_run_external_process
+):
     """generate_target will generate ti file."""
     commands = patch_run_external_process
     precondition_profile_path = "pre_condition_profile_path.icc"
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     # set it to use only one A4 page
     icc_gen.number_of_pages = 1
     icc_gen.paper_size = PaperSizeLibrary.A4
@@ -1066,7 +1088,7 @@ def test_generate_target_without_precondition_profile_attr(file_collector, patch
 
 def test_generate_tif_files_will_generate_tif_files_from_target_file(file_collector):
     """generate_tif_files will generate tif file or files from target file."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     # There should be files under the temp folder
     # check them
     # set it to use only one A4 page
@@ -1082,7 +1104,7 @@ def test_generate_tif_files_will_generate_tif_files_from_target_file(file_collec
 
 def test_generate_tif_files_will_generates_correct_amount_of_tif_files(file_collector):
     """generate_tif_files correct amount of tif files."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     # There should be files under the temp folder
     # check them
     # set it to use only one A4 page
@@ -1101,7 +1123,7 @@ def test_generate_tif_files_will_generates_correct_amount_of_tif_files(file_coll
 
 def test_generate_tif_files_will_fill_tif_files_attr_single_page(file_collector):
     """generate_tif_files fills the tif_files correctly if there is only one page."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     # There should be files under the temp folder
     # check them
     # set it to use only one A4 page
@@ -1120,7 +1142,7 @@ def test_generate_tif_files_will_fill_tif_files_attr_single_page(file_collector)
 
 def test_generate_tif_files_will_fill_tif_files_attr_more_than_one_page(file_collector):
     """generate_tif_files will fill the tif_files list correctly."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     # There should be files under the temp folder
     # check them
     # set it to use only one A4 page
@@ -1142,7 +1164,7 @@ def test_generate_tif_files_will_fill_tif_files_attr_more_than_one_page(file_col
 
 def test_generate_tif_files_will_clear_the_tif_files_list(file_collector):
     """generate_tif_files will clear the tif_files list before running."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     # There should be files under the temp folder
     # check them
     # set it to use only one A4 page
@@ -1177,7 +1199,7 @@ def test_generate_tif_files_with_high_density_mode(
     file_collector, patch_run_external_process
 ):
     """generate_tif_files uses i1Pro if the use_high_density_mode is True."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     # There should be files under the temp folder
     # check them
     # set it to use only one A4 page
@@ -1198,7 +1220,7 @@ def test_generate_tif_files_with_normal_density_mode(
     file_collector, patch_run_external_process
 ):
     """generate_tif_files uses ColorMunki if the use_high_density_mode is False."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     # There should be files under the temp folder
     # check them
     # set it to use only one A4 page
@@ -1219,7 +1241,7 @@ def test_generate_tif_files_with_normal_density_mode(
 def test_print_charts(file_collector, patch_run_external_process):
     """print_charts is working properly."""
     # patch the run_external_process and check the command
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     icc_gen.number_of_pages = 1
     file_collector.append(icc_gen.profile_path)
 
@@ -1240,7 +1262,7 @@ def test_read_charts_calls_chartread_command(
     file_collector, patch_run_external_process
 ):
     """read_charts method will call chartread."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     icc_gen.number_of_pages = 1
     file_collector.append(icc_gen.profile_path)
     icc_gen.generate_target()
@@ -1257,7 +1279,7 @@ def test_read_charts_with_resume_set_to_true(
     file_collector, patch_run_external_process
 ):
     """read_charts method with resume=True will call chartread with -r option."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     icc_gen.number_of_pages = 1
     file_collector.append(icc_gen.profile_path)
     icc_gen.generate_target()
@@ -1275,7 +1297,7 @@ def test_read_charts_with_read_mode_set_to_1(
     file_collector, patch_run_external_process
 ):
     """read_charts with read_mode=1 calls chartread with -p and -P options."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     icc_gen.number_of_pages = 1
     file_collector.append(icc_gen.profile_path)
     icc_gen.generate_target()
@@ -1292,7 +1314,7 @@ def test_read_charts_with_read_mode_set_to_1(
 
 def test_generate_profile_1(file_collector, patch_run_external_process):
     """generate_profile method is working properly."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     icc_gen.number_of_pages = 1
     file_collector.append(icc_gen.profile_path)
     icc_gen.generate_target()
@@ -1316,7 +1338,7 @@ def test_generate_profile_1(file_collector, patch_run_external_process):
 
 def test_generate_profile_2(file_collector, patch_run_external_process):
     """generate_profile method is working properly."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     icc_gen.number_of_pages = 1
     icc_gen.copyright_info = "Erkan Ozgur Yilmaz(c)2021"
     file_collector.append(icc_gen.profile_path)
@@ -1334,7 +1356,7 @@ def test_generate_profile_2(file_collector, patch_run_external_process):
 
 def test_check_profile(file_collector, patch_run_external_process):
     """check_profile method is working properly."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     file_collector.append(icc_gen.profile_path)
     icc_gen.number_of_pages = 1
     icc_gen.copyright_info = "Erkan Ozgur Yilmaz(c)2021"
@@ -1355,7 +1377,7 @@ def test_check_profile(file_collector, patch_run_external_process):
 
 def test_check_profile_with_sort(file_collector, patch_run_external_process):
     """check_profile method is working properly."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     file_collector.append(icc_gen.profile_path)
     icc_gen.number_of_pages = 1
     icc_gen.copyright_info = "Erkan Ozgur Yilmaz(c)2021"
@@ -1379,7 +1401,7 @@ def test_check_profile_with_correct_file_extension(
 ):
     """check_profile uses the correct profile file extension"""
     # ICM on Windows and ICC on Linux
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     file_collector.append(icc_gen.profile_path)
     icc_gen.number_of_pages = 1
     icc_gen.copyright_info = "Erkan Ozgur Yilmaz(c)2021"
@@ -1404,7 +1426,7 @@ def test_check_profile_with_correct_file_extension(
 
 def test_install_profile_1(file_collector, patch_run_external_process):
     """install_profile method is working properly."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     icc_gen.number_of_pages = 1
     icc_gen.copyright_info = "Erkan Ozgur Yilmaz(c)2021"
     file_collector.append(icc_gen.profile_path)
@@ -1428,13 +1450,13 @@ def test_install_profile_1(file_collector, patch_run_external_process):
         profile_install_path = pathlib.Path(
             os.path.expandvars(
                 f"$WINDIR/System32spool/drivers/color/{icc_gen.profile_name}.icc"
-           )
+            )
         )
     elif "linux" in system_name:
         profile_install_path = pathlib.Path(
             f"~/.local/share/icc/{icc_gen.profile_name}.icc"
         ).expanduser()
-    elif "darwin" in system_name :
+    elif "darwin" in system_name:
         profile_install_path = pathlib.Path(
             f"~/Library/ColorSync/Profiles/{icc_gen.profile_name}.icc"
         ).expanduser()
@@ -1446,7 +1468,7 @@ def test_install_profile_1(file_collector, patch_run_external_process):
 
 def test_install_profile_2(file_collector, patch_run_external_process):
     """install_profile will raise a RuntimeError if ICC has not been generated yet."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     file_collector.append(icc_gen.profile_path)
     icc_gen.number_of_pages = 1
     icc_gen.copyright_info = "Erkan Ozgur Yilmaz(c)2021"
@@ -1483,7 +1505,10 @@ def test_output_path_for_linux(set_to_linux):
 def test_output_path_for_macos(set_to_macos):
     """output_path variable is correctly set for macOS."""
     icc_gen = ICCGenerator()
-    assert icc_gen.output_path == pathlib.Path("~/Library/ColorSync/Profiles/").expanduser()
+    assert (
+        icc_gen.output_path
+        == pathlib.Path("~/Library/ColorSync/Profiles/").expanduser()
+    )
 
 
 def test_color_correct_image_printer_profile_path_is_skipped(
@@ -2014,7 +2039,7 @@ def test_color_correct_image_image_profile_is_a_path_to_srgb_or_adobergb_file(
 
 def test_save_settings_path_is_skipped(file_collector):
     """profile_path used if path arg value is skipped."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     settings_file_path = icc_gen.profile_path / f"{icc_gen.profile_name}.json"
     file_collector.append(settings_file_path)
     assert not settings_file_path.exists()
@@ -2024,7 +2049,7 @@ def test_save_settings_path_is_skipped(file_collector):
 
 def test_save_settings_path_is_none(file_collector):
     """profile_path used if path arg value is None."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     settings_file_path = icc_gen.profile_path / f"{icc_gen.profile_name}.json"
     file_collector.append(settings_file_path)
     assert not os.path.exists(os.path.expanduser(settings_file_path))
@@ -2042,7 +2067,7 @@ def test_save_settings_path_is_not_a_str():
 
 def test_save_settings_is_working_properly(file_collector, patch_run_external_process):
     """save_settings function is working properly."""
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     path = tempfile.mktemp()
     file_collector.append(path)
     icc_gen.save_settings(path)
@@ -2149,6 +2174,7 @@ def test_run_external_process_will_use_os_system_if_shell_is_true(
 ):
     """run_external_process will use os.system if shell=True."""
     called = []
+
     class MockedOS(object):
         @classmethod
         def system(cls, command):
@@ -2159,7 +2185,7 @@ def test_run_external_process_will_use_os_system_if_shell_is_true(
     test_value = ["echo", "Hello"]
     expected_result = "echo Hello"
 
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     for _ in icc_gen.run_external_process(test_value, shell=True):
         pass
     assert expected_result in called
@@ -2170,7 +2196,7 @@ def test_run_external_process_will_raise_a_runtime_error_if_command_fails(
 ):
     """run_external_process will Raise a RuntimeError if command fails."""
     cmd = ["false"]
-    icc_gen = ICCGenerator()
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
     with pytest.raises(RuntimeError) as cm:
         for _ in icc_gen.run_external_process(cmd):
             pass
@@ -2182,7 +2208,7 @@ def test_generate_target_prints_commands_if_output_commands_is_true(
     capsys,
 ):
     """generate_target will print the command if output_commands is True."""
-    icc_gen = ICCGenerator(output_commands=True)
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand", output_commands=True)
     icc_gen.generate_target()
     assert "targen -v -d 2 -G -g" in capsys.readouterr().out
 
@@ -2193,22 +2219,19 @@ def test_generate_tiff_prints_commands_if_output_commands_is_true(
     capsys,
 ):
     """generate_target will print the command if output_commands is True."""
-    icc_gen = ICCGenerator(output_commands=True)
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand", output_commands=True)
     icc_gen.generate_tif()
-    assert "printtarg -v -ii1 -a 0.875 -R1 -T300 -M2 -L -P -p" in capsys.readouterr().out
+    assert (
+        "printtarg -v -ii1 -a 0.875 -R1 -T300 -M2 -L -P -p" in capsys.readouterr().out
+    )
 
 
-@pytest.mark.parametrize(
-    "os_name", ["linux", "darwin", "win32"]
-)
+@pytest.mark.parametrize("os_name", ["linux", "darwin", "win32"])
 def test_print_charts_prints_commands_if_output_commands_is_true(
-    file_collector,
-    patch_run_external_process,
-    monkeypatch,
-    capsys,
-    os_name
+    file_collector, patch_run_external_process, monkeypatch, capsys, os_name
 ):
     """generate_target will print the command if output_commands is True."""
+
     class MockedPlatform(object):
         @classmethod
         def system(cls):
@@ -2216,7 +2239,7 @@ def test_print_charts_prints_commands_if_output_commands_is_true(
 
     monkeypatch.setattr("icc_generator.api.platform", MockedPlatform)
 
-    icc_gen = ICCGenerator(output_commands=True)
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand", output_commands=True)
     icc_gen.print_charts()
     command = {
         "win32": "C:/Program Files/Dry Creek Photo/Print Utility/Print Utility",
@@ -2231,7 +2254,7 @@ def test_read_charts_prints_commands_if_output_commands_is_true(
     capsys,
 ):
     """read_charts will print the command if output_commands is True."""
-    icc_gen = ICCGenerator(output_commands=True)
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand", output_commands=True)
     icc_gen.read_charts()
     assert "chartread -v -H -T 0.4" in capsys.readouterr().out
 
@@ -2241,7 +2264,7 @@ def test_generate_profile_prints_commands_if_output_commands_is_true(
     capsys,
 ):
     """generate_profile will print the command if output_commands is True."""
-    icc_gen = ICCGenerator(output_commands=True)
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand", output_commands=True)
     icc_gen.generate_profile()
     assert "colprof -v -qh -r0.5 -S" in capsys.readouterr().out
 
@@ -2251,28 +2274,24 @@ def test_check_profile_prints_commands_if_output_commands_is_true(
     capsys,
 ):
     """check_profile will print the command if output_commands is True."""
-    icc_gen = ICCGenerator(output_commands=True)
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand", output_commands=True)
     icc_gen.check_profile()
     assert "profcheck -k -v2" in capsys.readouterr().out
 
 
-@pytest.mark.parametrize(
-    "os_name", ["linux", "darwin", "win32"]
-)
+@pytest.mark.parametrize("os_name", ["linux", "darwin", "win32"])
 def test_check_profile_uses_icm_under_windows_and_icc_under_linux_and_macos(
-    patch_run_external_process,
-    capsys,
-    monkeypatch,
-    os_name
+    patch_run_external_process, capsys, monkeypatch, os_name
 ):
     """check_profile will print the command if output_commands is True."""
+
     class MockedPlatform(object):
         @classmethod
         def system(cls):
             return os_name
 
     monkeypatch.setattr("icc_generator.api.platform", MockedPlatform)
-    icc_gen = ICCGenerator(output_commands=True)
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand", output_commands=True)
     icc_gen.check_profile()
     extension = {
         "linux": ".icc",
@@ -2290,6 +2309,7 @@ def test_install_profile_prints_out_exception_if_command_errors_out(
 ):
     """install_profile will print error if command errors out."""
     error_message = "This is a fake error message."
+
     class MockedShUtil(object):
         @classmethod
         def copy2(cls, src, dest):
@@ -2297,7 +2317,7 @@ def test_install_profile_prints_out_exception_if_command_errors_out(
 
     monkeypatch.setattr("shutil.copy2", MockedShUtil.copy2)
 
-    icc_gen = ICCGenerator(output_commands=True)
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand", output_commands=True)
     file_collector.append(icc_gen.profile_path)
     icc_gen.number_of_pages = 1
     icc_gen.copyright_info = "Erkan Ozgur Yilmaz(c)2025"
@@ -2317,3 +2337,55 @@ def test_install_profile_prints_out_exception_if_command_errors_out(
 
     assert error_message in capsys.readouterr().err
 
+
+def test_summary_prints_out_summary():
+    """summary() prints out a summary of the ICCGenerator object."""
+    icc_gen = ICCGenerator()
+    icc_gen.printer_brand = "RandomPrinterBrand"
+    icc_gen.printer_model = "ET-8550"
+    icc_gen.ink_brand = "Epson"
+    icc_gen.paper_brand = "Epson"
+    icc_gen.paper_model = "VelvetFineArt"
+    icc_gen.paper_finish = "Satin"
+    icc_gen.paper_size = PaperSizeLibrary.A4
+    icc_gen.number_of_pages = 2
+
+    result = icc_gen.summary()
+    assert isinstance(result, str)
+
+    # because we can't predict the exact output format (spacing etc.)
+    # we need to check for partial results
+    expected_data = [
+        "Parameter",
+        "Value",
+        "Printer:",
+        "Brand",
+        "RandomPrinterBrand",
+        "Model",
+        "ET-8550",
+        "Paper:",
+        "Finish",
+        "Satin",
+        "Size",
+        "A4",
+        "Profile Settings:",
+        "Number of Pages",
+        "Patch Count",
+        "1456",
+        "Gray Patch Count",
+        f"{icc_gen.gray_patch_count}",
+        "Copyright Info",
+        "Use High Density Mode",
+        "True",
+        "Precondition Profile Path",
+        "Profile Date & Time",
+        f"{icc_gen.profile_date}",
+        f"{icc_gen.profile_time}",
+        "Profile Name",
+        f"{icc_gen.profile_name}",
+        "Profile Path",
+        f"{icc_gen.profile_path}",
+        "Profile Output Path",
+        f"{icc_gen.output_path}",
+    ]
+    assert all(d in result for d in expected_data)

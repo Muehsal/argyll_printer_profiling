@@ -54,7 +54,7 @@ include-package-data = true
 where = ["src"]
 
 [tool.setuptools.package-data]
-icc_generator = ["VERSION", "py.typed"]
+icc_generator = ["VERSION", "py.typed", "data/*"]
 
 [tool.setuptools.exclude-package-data]
 icc_generator = ["docs", "tests"]

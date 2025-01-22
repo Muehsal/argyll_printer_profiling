@@ -270,7 +270,7 @@ def test_area_is_read_only():
         ["Legal", 215.9, 355.6, 76774.04],
         ["Letter", 215.9, 279.4, 60322.46],
         ["LetterR", 279.4, 215.9, 60322.46],
-    ]
+    ],
 )
 def test_area_returns_paper_area_in_mm2(name, width, height, expected_result):
     """area returns paper area in mm2."""
@@ -288,7 +288,7 @@ def test_area_returns_paper_area_in_mm2(name, width, height, expected_result):
         ["Legal", 215.9, 355.6],
         ["Letter", 215.9, 279.4],
         ["LetterR", 279.4, 215.9],
-    ]
+    ],
 )
 def test_equality_op(name, width, height):
     """Test equality operator."""
