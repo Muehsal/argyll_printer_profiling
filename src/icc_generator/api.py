@@ -11,8 +11,9 @@ import subprocess
 import traceback
 from typing import Tuple, Union
 
-from icc_generator import logger
+import prettytable
 
+from icc_generator import logger
 
 HERE = pathlib.Path(__file__).parent.absolute()
 
@@ -279,25 +280,25 @@ class ICCGenerator(object):
 
     MacOS Workflow notes:
 
-    - Printing the targets with macOS requires an application that can disable the ICC
-      profiles. Don't use Adobe Photoshop as there is no way to disable the usage of ICC
-      profiles. Adobe Color Printer Utility is also not working properly with the latest
-      versions of macOS. The best alternative I found so far is
-      [Print-Tool](https://www.quadtonerip.com/html/QTRprinttool.html "Print-Tool") is a
+    - Printing the targets with macOS requires an application that can disable
+      the ICC profiles. Don't use Adobe Photoshop as there is no way to disable
+      the usage of ICC profiles. Adobe Color Printer Utility is also not
+      working properly with the latest versions of macOS. The best alternative
+      I found so far is [Print-Tool](https://www.quadtonerip.com/html/QTRprinttool.html "Print-Tool") is a
       very suitable tool, albeit non-free.
 
-    If the ``use_high_density_mode`` is set to True the system uses the i1pro patch
-    pattern which is much denser than the one for ColorMunki.
+    If the ``use_high_density_mode`` is set to True the system uses the i1pro
+    patch pattern which is much denser than the one for ColorMunki.
 
-    If the ``use_high_density_mode`` is set to anything other than True, then the system
-    will use two A4 pages or one A3 page use:
+    If the ``use_high_density_mode`` is set to anything other than True, then
+    the system will use two A4 pages or one A3 page use:
 
     420 patches for A4 (in 2 A4 pages)
-    460 patches for A3
+    483 patches for A3
 
-    by setting the device to ``i1pro`` and the margins to 2 mm it is possible to print
-    672 (28x24) 7x8.75 mm patches for A4 and 1392 (58x24) 7x8.75 mm patches for A3 on a
-    single page.
+    by setting the device to ``i1pro`` and the margins to 2 mm it is possible
+    to print 728 of 7x8.75 mm patches for A4 and 1599 of 7x8.75 mm patches for
+    A3 on a single page.
 
     what I want to achieve here is to use the minimum amount of paper for
     profiling and still have an excellent result
@@ -337,127 +338,109 @@ class ICCGenerator(object):
         "paper_size": {
             PaperSizeLibrary.p11x17: {
                 "patch_count": {
-                    NORMAL_DENSITY: int(
-                        210
-                        / PaperSizeLibrary.paper_sizes["A4"].area
-                        * PaperSizeLibrary.paper_sizes["11x17"].area
-                    ),
+                    NORMAL_DENSITY: 456,
                     HIGH_DENSITY: 1558,
-                }
+                },
+                "margins": [0, 0],
             },
             PaperSizeLibrary.p4x6: {
                 "patch_count": {
-                    NORMAL_DENSITY: int(
-                        210
-                        / PaperSizeLibrary.paper_sizes["A4"].area
-                        * PaperSizeLibrary.paper_sizes["4x6"].area
-                    ),
-                    HIGH_DENSITY:156,
-                }
+                    NORMAL_DENSITY: 36,
+                    HIGH_DENSITY: 156,
+                },
+                "margins": [0, 0],
             },
             PaperSizeLibrary.A2: {
                 "patch_count": {
-                    NORMAL_DENSITY: int(
-                        445
-                        / PaperSizeLibrary.paper_sizes["A3"].area
-                        * PaperSizeLibrary.paper_sizes["A2"].area
-                    ),
+                    NORMAL_DENSITY: 1050,
                     HIGH_DENSITY: 3364,
-                }
+                },
+                "margins": [0, 0],
             },
             PaperSizeLibrary.A2R: {
                 "patch_count": {
-                    NORMAL_DENSITY: int(
-                        445
-                        / PaperSizeLibrary.paper_sizes["A3"].area
-                        * PaperSizeLibrary.paper_sizes["A2"].area
-                    ),
+                    NORMAL_DENSITY: 966,
                     HIGH_DENSITY: 3320,
-                }
+                },
+                "margins": [0, 0],
             },
             PaperSizeLibrary.A3: {
                 "patch_count": {
-                    NORMAL_DENSITY: 445,
+                    NORMAL_DENSITY: 483,
                     HIGH_DENSITY: 1640,
-                }
+                },
+                "margins": [0, 0],
             },
             PaperSizeLibrary.A3R: {
                 "patch_count": {
-                    NORMAL_DENSITY: 445,
-                    HIGH_DENSITY: 1566,
-                }
+                    NORMAL_DENSITY: 420,
+                    HIGH_DENSITY: 1512,
+                },
+                "margins": [15, 0],
             },
             PaperSizeLibrary.A3P: {
                 "patch_count": {
-                    NORMAL_DENSITY: 445,
+                    NORMAL_DENSITY: 644,
                     HIGH_DENSITY: 2115,
-                }
+                },
+                "margins": [0, 0],
             },
             PaperSizeLibrary.A3PR: {
                 "patch_count": {
-                    NORMAL_DENSITY: 445,
-                    HIGH_DENSITY: 2077,
-                }
+                    NORMAL_DENSITY: 476,
+                    HIGH_DENSITY: 1742,
+                },
+                "margins": [0, 45],
             },
             PaperSizeLibrary.A4: {
                 "patch_count": {
-                    NORMAL_DENSITY: 210,
-                    HIGH_DENSITY: 756,
-                }
+                    NORMAL_DENSITY: 196,
+                    HIGH_DENSITY: 728,
+                },
+                "margins": [0, 15],
             },
             PaperSizeLibrary.A4R: {
                 "patch_count": {
-                    NORMAL_DENSITY: 210,
+                    NORMAL_DENSITY: 189,
                     HIGH_DENSITY: 738,
-                }
+                },
+                "margins": [0, 0],
             },
             PaperSizeLibrary.Legal: {
                 "patch_count": {
-                    NORMAL_DENSITY: int(
-                        210
-                        / PaperSizeLibrary.paper_sizes["A4"].area
-                        * PaperSizeLibrary.paper_sizes["Legal"].area
-                    ),
-                    HIGH_DENSITY: 957,
-                }
+                    NORMAL_DENSITY: 270,
+                    HIGH_DENSITY: 928,
+                },
+                "margins": [0, 70],
             },
             PaperSizeLibrary.LegalR: {
                 "patch_count": {
-                    NORMAL_DENSITY: int(
-                        210
-                        / PaperSizeLibrary.paper_sizes["A4"].area
-                        * PaperSizeLibrary.paper_sizes["Legal"].area
-                    ),
-                    HIGH_DENSITY: 931,
-                }
+                    NORMAL_DENSITY: 210,
+                    HIGH_DENSITY: 754,
+                },
+                "margins": [0, 0],
             },
             PaperSizeLibrary.Letter: {
                 "patch_count": {
-                    NORMAL_DENSITY: int(
-                        210
-                        / PaperSizeLibrary.paper_sizes["A4"].area
-                        * PaperSizeLibrary.paper_sizes["Letter"].area
-                    ),
+                    NORMAL_DENSITY: 195,
                     HIGH_DENSITY: 725,
-                }
+                },
+                "margins": [0, 5],
             },
             PaperSizeLibrary.LetterR: {
                 "patch_count": {
-                    NORMAL_DENSITY: int(
-                        210
-                        / PaperSizeLibrary.paper_sizes["A4"].area
-                        * PaperSizeLibrary.paper_sizes["LetterR"].area
-                    ),
+                    NORMAL_DENSITY: 190,
                     HIGH_DENSITY: 722,
-                }
+                },
+                "margins": [0, 0],
             },
         }
     }
 
     def __init__(
         self,
-        printer_brand: str = "Canon",
-        printer_model: str = "iX6850",
+        printer_brand: str = "Epson",
+        printer_model: str = "ET-8550",
         paper_brand: str = "Kodak",
         paper_model: str = "UPPP",
         paper_finish: str = "Glossy",
@@ -1128,6 +1111,12 @@ class ICCGenerator(object):
         else:
             command += ["-iCM", "-h", "-P"]  # Use a ColorMunki
 
+        width, height = self.paper_size.size
+        # apply margins
+        margins = self.__data__["paper_size"][self.paper_size]["margins"]
+        width -= margins[0]
+        height -= margins[1]
+
         command += [
             "-R1",
             "-T300",
@@ -1135,7 +1124,7 @@ class ICCGenerator(object):
             "-L",
             "-P",
             "-p",
-            "{:0.1f}x{:0.1f}".format(*self.paper_size.size),
+            "{:0.1f}x{:0.1f}".format(width, height),
             str(self.profile_absolute_full_path),
         ]
 
@@ -1501,3 +1490,47 @@ class ICCGenerator(object):
         print("command: {}".format(" ".join(command)))
         for output in cls.run_external_process(command):
             print(output)
+
+    def summary(self):
+        """Return the summary of the profile."""
+        summary_table = prettytable.PrettyTable(padding_width=1)
+        field_col_names = []
+        field_names = ["Parameter", "Value"]
+        for col in field_names:
+            field_col_names.append(col)
+        summary_table.field_names = field_col_names
+        summary_table.align = "l"
+
+        summary_table.add_row(["Printer:", ""])
+        summary_table.add_row(["  Brand", self.printer_brand])
+        summary_table.add_row(["  Model", self.printer_model])
+
+        summary_table.add_row(["", ""])
+        summary_table.add_row(["Paper:", ""])
+        summary_table.add_row(["  Brand", self.paper_brand])
+        summary_table.add_row(["  Model", self.paper_model])
+        summary_table.add_row(["  Finish", self.paper_finish])
+        summary_table.add_row(["  Size", self.paper_size.name])
+
+        summary_table.add_row(["", ""])
+        summary_table.add_row(["Ink:", ""])
+        summary_table.add_row(["  Brand", self.ink_brand])
+
+        summary_table.add_row(["", ""])
+        summary_table.add_row(["Profile Settings:", ""])
+        summary_table.add_row(["  Number of Pages", self.number_of_pages])
+        summary_table.add_row(["  Patch Count", self.patch_count])
+        summary_table.add_row(["  Gray Patch Count", self.gray_patch_count])
+        summary_table.add_row(["  Copyright Info", self.copyright_info])
+        summary_table.add_row(["  Use High Density Mode", self.use_high_density_mode])
+        summary_table.add_row(
+            ["  Precondition Profile Path", self.precondition_profile_path]
+        )
+        summary_table.add_row(
+            ["  Profile Date & Time", f"{self.profile_date}_{self.profile_time}"]
+        )
+        summary_table.add_row(["  Profile Name", self.profile_name])
+        summary_table.add_row(["  Profile Path", self.profile_absolute_path])
+        summary_table.add_row(["  Profile Output Path", self.output_path])
+
+        return str(summary_table)

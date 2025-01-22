@@ -46,8 +46,3 @@ from icc_generator.version import __version__
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-
-
-
-
-

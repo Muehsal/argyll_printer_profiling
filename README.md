@@ -46,27 +46,26 @@ Follow the steps for Linux:
 
 Nearly same as Linux:
 
- - Printing the targets with macOS requires an application that can disable the ICC
-   profiles. Don't use Adobe Photoshop as there is no way to disable the usage of ICC
-   profiles. Adobe Color Printer Utility is also not working properly with the latest
-   versions of macOS. The best alternative I found so far is
-   [Print-Tool](https://www.quadtonerip.com/html/QTRprinttool.html "Print-Tool") is a
-   very suitable tool, albeit non-free.
+ - Printing the targets with macOS requires an application that can disable the
+   ICC profiles. Don't use Adobe Photoshop as there is no way to disable the
+   usage of ICC profiles. Adobe Color Printer Utility is also not working
+   properly with the latest versions of macOS. The best alternative I found so
+   far is [Print-Tool](https://www.quadtonerip.com/html/QTRprinttool.html "Print-Tool")
+   is a very suitable tool, albeit non-free.
 
 ### For Both Windows and Linux ###
 
 For both windows and Linux the rest of the steps are same.
 
 Just follow the steps in the UI. The final page will install the generated ICC
-profile to your system. And that's it. You can then use that
-profile to print from applications like Photoshop, Lightroom, CaptureOne, Gimp
-etc.
+profile to your system. And that's it. You can then use that profile to print
+from applications like Photoshop, Lightroom, CaptureOne, Gimp etc.
 
-The system is setup to use 600 color patches per A4 or 1212 color patches per
-A3 size paper in ``high density mode`` and 210 color patches per A4 and 445
-color patches per A3. The high density mode is the default behaviour. But it
-may be tedious to scan through. If that's the case, simply don't use
-high density mode and print more pages.
+The system is setup to use 728 color patches per A4 or 1599 color patches per
+A3 size paper in ``high density mode`` and 210 color patches per A4 and 483
+color patches per A3 in ``normal density mode``. The high density mode is the
+default behaviour. But it may be tedious to scan through. If that's the case,
+simply don't use high density mode and print more pages.
 
 ### Python Documentation ###
 
@@ -79,20 +78,58 @@ from icc_generator.api import ICCGenerator, PaperSizeLibrary
 ig = ICCGenerator()
 
 # Set Printer Details
-ig.printer_brand = "Canon"
-ig.printer_model = "iX6850"
+ig.printer_brand = "Epson"
+ig.printer_model = "ET-8550"
 
 # Set Paper Details
-ig.paper_brand = "Kodak"
-ig.paper_model = "UPPP"
-ig.paper_finish = "Glossy"
+ig.paper_brand = "Epson"
+ig.paper_model = "VelvetFineArt"
+ig.paper_finish = "Satin"
 ig.paper_size = PaperSizeLibrary.A4  # Or generate a custom size.
 
 # Set Ink Details
-ig.ink_brand = "CanonInk"
+ig.ink_brand = "Epson"
 
 # Profiling workflow, run the following commands in the given order:
 ig.gray_patch_count = 128  # default is 128, which should be quite enough.
+
+# set the number of pages you want to use for profiling,
+# if you want to increase the number of patches.
+ig.number_of_pages = 2
+
+# to see a summary of the settings you can run:
+print(ig.summary())
+
+# Which should print:
+# +-----------------------------+----------------------------------------------------------------+
+# | Parameter                   | Value                                                          |
+# +-----------------------------+----------------------------------------------------------------+
+# | Printer:                    |                                                                |
+# |   Brand                     | Epson                                                          |
+# |   Model                     | ET-8550                                                        |
+# |                             |                                                                |
+# | Paper:                      |                                                                |
+# |   Brand                     | Epson                                                          |
+# |   Model                     | VelvetFineArt                                                  |
+# |   Finish                    | Satin                                                          |
+# |   Size                      | A4                                                             |
+# |                             |                                                                |
+# | Ink:                        |                                                                |
+# |   Brand                     | Epson                                                          |
+# |                             |                                                                |
+# | Profile Settings:           |                                                                |
+# |   Number of Pages           | 2                                                              |
+# |   Patch Count               | 1456                                                           |
+# |   Gray Patch Count          | 128                                                            |
+# |   Copyright Info            |                                                                |
+# |   Use High Density Mode     | True                                                           |
+# |   Precondition Profile Path |                                                                |
+# |   Profile Date & Time       | 20250121_1733                                                  |
+# |   Profile Name              | Epson_ET-8550_Epson_VelvetFineArt_Satin_A4_Epson_20250121_1733 |
+# |   Profile Path              | /Users/eoyilmaz/.cache/ICCGenerator/Epson_ET-8550/20250121     |
+# |   Profile Output Path       | /Users/eoyilmaz/Library/ColorSync/Profiles                     |
+# +-----------------------------+----------------------------------------------------------------+
+
 ig.generate_target()
 ig.generate_tif()  # This will output TIF file paths
 ig.print_charts()  # Can be skipped and TIF file paths can be directly used.
