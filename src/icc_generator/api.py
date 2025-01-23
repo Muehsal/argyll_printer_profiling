@@ -59,7 +59,7 @@ class PaperSize(object):
         if not isinstance(name, str):
             raise TypeError(
                 f"{self.__class__.__name__}.name should be a str, "
-                f"not {name.__class__.__name__}"
+                f"not {name.__class__.__name__}: '{name}'"
             )
         self._name = name
 
@@ -86,7 +86,7 @@ class PaperSize(object):
         if not isinstance(width, (float, int)):
             raise TypeError(
                 f"{self.__class__.__name__}.width should be a int or float, "
-                f"not {width.__class__.__name__}"
+                f"not {width.__class__.__name__}: '{width}'"
             )
         if width <= 0:
             raise ValueError(
@@ -118,7 +118,7 @@ class PaperSize(object):
         if not isinstance(height, (float, int)):
             raise TypeError(
                 f"{self.__class__.__name__}.height should be a int or float, "
-                f"not {height.__class__.__name__}"
+                f"not {height.__class__.__name__}: '{height}'"
             )
         if height <= 0:
             raise ValueError(
@@ -151,7 +151,7 @@ class PaperSize(object):
         if not isinstance(size, (list, tuple)):
             raise TypeError(
                 f"{self.__class__.__name__}.size should be a list, "
-                f"not {size.__class__.__name__}"
+                f"not {size.__class__.__name__}: '{size}'"
             )
 
         if len(size) != 2:
@@ -255,7 +255,7 @@ class PaperSizeLibrary(object):
         if not isinstance(paper_size_name, str):
             raise TypeError(
                 "paper_size_name should be a str, "
-                f"not {paper_size_name.__class__.__name__}"
+                f"not {paper_size_name.__class__.__name__}: '{paper_size_name}'"
             )
 
         return cls.paper_sizes.get(paper_size_name)
@@ -293,15 +293,17 @@ class ICCGenerator(object):
     If the ``use_high_density_mode`` is set to anything other than True, then
     the system will use two A4 pages or one A3 page use:
 
-    420 patches for A4 (in 2 A4 pages)
+    398 patches for A4 (in 2 A4 pages)
     483 patches for A3
 
     by setting the device to ``i1pro`` and the margins to 2 mm it is possible
-    to print 728 of 7x8.75 mm patches for A4 and 1599 of 7x8.75 mm patches for
-    A3 on a single page.
+    to print 728 of patches on an A4 and 1640 patches on an single A3. The
+    patch size for high resolution is 7x8.75 mm.
 
-    what I want to achieve here is to use the minimum amount of paper for
-    profiling and still have an excellent result
+    The purpose here is to use the minimum amount of paper for profiling and
+    still have an excellent result.
+
+    ##Temp Files##
 
     Generated temp files are located under these folders:
 
@@ -329,6 +331,22 @@ class ICCGenerator(object):
 
             ~/Library/ColorSync/Profiles/
 
+    Args:
+        printer_brand (str): The printer brand.
+        printer_model (str): The printer model.
+        printer_paper_setting (str): The paper name in the print settings used
+            to print the patch pattern. Generally, the paper setting defines
+            the gamut of the print and the same paper setting should be used
+            with the generated ICC profile. Default value is "Default".
+        paper_brand (str): The paper brand.
+        paper_model (str): The paper model.
+        paper_finish (str): The paper finish (i.e Glossy, Matte).
+        paper_size (PaperSize): The paper size.
+        ink_brand (str): The ink brand.
+        use_high_density_mode (bool): If set to to True (default) higher resolution for
+            the patches will be used, which will increase the patches printed per page,
+            allowing less paper use for profiling.
+        number_of_pages (int): The number of pages.
     """
 
     NORMAL_DENSITY = "normal_density"
@@ -441,6 +459,7 @@ class ICCGenerator(object):
         self,
         printer_brand: str = "Epson",
         printer_model: str = "ET-8550",
+        printer_paper_setting: str = "Default",
         paper_brand: str = "Kodak",
         paper_model: str = "UPPP",
         paper_finish: str = "Glossy",
@@ -460,6 +479,9 @@ class ICCGenerator(object):
 
         self._printer_model = None
         self.printer_model = printer_model
+
+        self._printer_paper_setting = None
+        self.printer_paper_setting = printer_paper_setting
 
         self._paper_brand = None
         self.paper_brand = paper_brand
@@ -503,12 +525,12 @@ class ICCGenerator(object):
 
         # Profile Path template
         self._profile_path_template = (
-            "~/.cache/ICCGenerator/{printer_brand}_" "{printer_model}/{profile_date}"
+            "~/.cache/ICCGenerator/{printer_brand}_{printer_model}/{profile_date}"
         )
 
         # Profile name template
         self.profile_name_template = (
-            "{printer_brand}_{printer_model}_{paper_brand}_"
+            "{printer_brand}_{printer_model}_{printer_paper_setting}_{paper_brand}_"
             "{paper_model}_{paper_finish}_{paper_size}_{ink_brand}_"
             "{profile_date}_{profile_time}"
         )
@@ -557,6 +579,7 @@ class ICCGenerator(object):
             "paper_size": self.paper_size.name,
             "printer_brand": self.printer_brand,
             "printer_model": self.printer_model,
+            "printer_paper_setting": self.printer_paper_setting,
             "profile_date": self.profile_date,
             "profile_time": self.profile_time,
         }
@@ -598,6 +621,7 @@ class ICCGenerator(object):
         self.paper_size = PaperSizeLibrary.get_paper_size(data["paper_size"])
         self.printer_brand = data["printer_brand"]
         self.printer_model = data["printer_model"]
+        self.printer_paper_setting = data["printer_paper_setting"]
         self.profile_date = data["profile_date"]
         self.profile_time = data["profile_time"]
 
@@ -623,7 +647,7 @@ class ICCGenerator(object):
         if not printer_brand or not isinstance(printer_brand, str):
             raise TypeError(
                 f"{self.__class__.__name__}.printer_brand should be a str, "
-                f"not {printer_brand.__class__.__name__}"
+                f"not {printer_brand.__class__.__name__}: '{printer_brand}'"
             )
         self._printer_brand = printer_brand
 
@@ -649,9 +673,40 @@ class ICCGenerator(object):
         if not printer_model or not isinstance(printer_model, str):
             raise TypeError(
                 f"{self.__class__.__name__}.printer_model should be a str, "
-                f"not {printer_model.__class__.__name__}"
+                f"not {printer_model.__class__.__name__}: '{printer_model}'"
             )
         self._printer_model = printer_model
+
+    @property
+    def printer_paper_setting(self) -> str:
+        """Return the printer_paper_setting attribute value.
+
+        Returns:
+            str: The printer_paper_setting attribute value.
+        """
+        return self._printer_paper_setting
+    
+    @printer_paper_setting.setter
+    def printer_paper_setting(self, printer_paper_setting: str):
+        """Set the printer_paper_setting attribute.
+
+        Args:
+            printer_paper_setting (str): The printer_paper_setting.
+
+        Raises:
+            TypeError: If the given printer_paper_setting arg value is not a str.
+        """
+        if printer_paper_setting is None or printer_paper_setting == "":
+            printer_paper_setting = "Default"  # default value
+
+        if not isinstance(printer_paper_setting, str):
+            raise TypeError(
+                f"{self.__class__.__name__}.printer_paper_setting should be a str, "
+                f"not {printer_paper_setting.__class__.__name__}: "
+                f"'{printer_paper_setting}'"
+            )
+        self._printer_paper_setting = printer_paper_setting
+
 
     @property
     def paper_brand(self) -> str:
@@ -675,7 +730,7 @@ class ICCGenerator(object):
         if not paper_brand or not isinstance(paper_brand, str):
             raise TypeError(
                 f"{self.__class__.__name__}.paper_brand should be a str, "
-                f"not {paper_brand.__class__.__name__}"
+                f"not {paper_brand.__class__.__name__}: '{paper_brand}'"
             )
         self._paper_brand = paper_brand
 
@@ -701,7 +756,7 @@ class ICCGenerator(object):
         if not paper_model or not isinstance(paper_model, str):
             raise TypeError(
                 f"{self.__class__.__name__}.paper_model should be a str, "
-                f"not {paper_model.__class__.__name__}"
+                f"not {paper_model.__class__.__name__}: '{paper_model}'"
             )
         self._paper_model = paper_model
 
@@ -727,7 +782,7 @@ class ICCGenerator(object):
         if not paper_finish or not isinstance(paper_finish, str):
             raise TypeError(
                 f"{self.__class__.__name__}.paper_finish should be a str, "
-                f"not {paper_finish.__class__.__name__}"
+                f"not {paper_finish.__class__.__name__}: '{paper_finish}'"
             )
         self._paper_finish = paper_finish
 
@@ -754,7 +809,7 @@ class ICCGenerator(object):
         if not paper_size or not isinstance(paper_size, PaperSize):
             raise TypeError(
                 f"{self.__class__.__name__}.paper_size should be a PaperSize instance, "
-                f"not {paper_size.__class__.__name__}"
+                f"not {paper_size.__class__.__name__}: '{paper_size}'"
             )
         self._paper_size = paper_size
 
@@ -780,7 +835,7 @@ class ICCGenerator(object):
         if not ink_brand or not isinstance(ink_brand, str):
             raise TypeError(
                 f"{self.__class__.__name__}.ink_brand should be a str, "
-                f"not {ink_brand.__class__.__name__}"
+                f"not {ink_brand.__class__.__name__}: '{ink_brand}'"
             )
         self._ink_brand = ink_brand
 
@@ -808,7 +863,8 @@ class ICCGenerator(object):
         if not isinstance(use_high_density_mode, bool):
             raise TypeError(
                 f"{self.__class__.__name__}.use_high_density_mode should be a bool "
-                f"(True or False), not {use_high_density_mode.__class__.__name__}"
+                f"(True or False), not {use_high_density_mode.__class__.__name__}: "
+                f"'{use_high_density_mode}'"
             )
         self._use_high_density_mode = use_high_density_mode
 
@@ -834,7 +890,7 @@ class ICCGenerator(object):
         if not number_of_pages or not isinstance(number_of_pages, int):
             raise TypeError(
                 f"{self.__class__.__name__}.number_of_pages should be a int, "
-                f"not {number_of_pages.__class__.__name__}"
+                f"not {number_of_pages.__class__.__name__}: '{number_of_pages}'"
             )
         self._number_of_pages = number_of_pages
 
@@ -860,7 +916,7 @@ class ICCGenerator(object):
         if not isinstance(copyright_info, str):
             raise TypeError(
                 f"{self.__class__.__name__}.copyright_info should be a str, "
-                f"not {copyright_info.__class__.__name__}"
+                f"not {copyright_info.__class__.__name__}: '{copyright_info}'"
             )
         self._copyright_info = copyright_info
 
@@ -891,7 +947,8 @@ class ICCGenerator(object):
         if not isinstance(precondition_profile_path, str):
             raise TypeError(
                 f"{self.__class__.__name__}.precondition_profile_path should be a str, "
-                f"not {precondition_profile_path.__class__.__name__}"
+                f"not {precondition_profile_path.__class__.__name__}: "
+                f"'{precondition_profile_path}'"
             )
         self._precondition_profile_path = precondition_profile_path
 
@@ -907,6 +964,7 @@ class ICCGenerator(object):
             self._profile_path_template.format(
                 printer_brand=self.printer_brand,
                 printer_model=self.printer_model,
+                printer_paper_setting=self.printer_paper_setting,
                 paper_brand=self.paper_brand,
                 paper_model=self.paper_model,
                 paper_finish=self.paper_finish,
@@ -944,6 +1002,7 @@ class ICCGenerator(object):
         return self.profile_name_template.format(
             printer_brand=self.printer_brand,
             printer_model=self.printer_model,
+            printer_paper_setting=self.printer_paper_setting,
             paper_brand=self.paper_brand,
             paper_model=self.paper_model,
             paper_finish=self.paper_finish,
@@ -1023,7 +1082,7 @@ class ICCGenerator(object):
         if not gray_patch_count or not isinstance(gray_patch_count, int):
             raise TypeError(
                 f"{self.__class__.__name__}.gray_patch_count should be an int, "
-                f"not {gray_patch_count.__class__.__name__}"
+                f"not {gray_patch_count.__class__.__name__}: '{gray_patch_count}'"
             )
 
         self._gray_patch_count = gray_patch_count
@@ -1353,7 +1412,7 @@ class ICCGenerator(object):
             image_profile (Union[str, pathlib.Path]): Can be either "sRGB" or
                 "AdobeRGB", default is "AdobeRGB".
             input_image_path (Union[str, pathlib.Path]): The input JPG/TIFF image path.
-            output_image_path (Uniton[str, pathlib.Path, None]): The output TIFF image
+            output_image_path (Union[str, pathlib.Path, None]): The output TIFF image
                 path. Can be set to None then a suitable path will be generated
                 automatically.
             intent (str): Rendering intent, one of the following:
@@ -1445,10 +1504,14 @@ class ICCGenerator(object):
             intent = "r"
 
         if not isinstance(intent, str):
-            raise TypeError(f"intent should be a str, not {intent.__class__.__name__}")
+            raise TypeError(
+                f"intent should be a str, not {intent.__class__.__name__}: '{intent}'"
+            )
 
         if intent not in ["p", "r", "s", "a"]:
-            raise ValueError(f"intent should be one of p, r, s, a, not {intent}")
+            raise ValueError(
+                f"intent should be one of p, r, s, a, not {intent}"
+            )
 
         # ---------------------
         # Image Profile
@@ -1457,7 +1520,8 @@ class ICCGenerator(object):
 
         if not isinstance(image_profile, (str, pathlib.Path)):
             raise TypeError(
-                f"image_profile should be one of sRGB or AdobeRGB, not {image_profile}"
+                "image_profile should be one of sRGB or AdobeRGB, "
+                f"not {image_profile.__class__.__name__}: '{image_profile}'"
             )
 
         image_profile = pathlib.Path(image_profile)
@@ -1504,6 +1568,7 @@ class ICCGenerator(object):
         summary_table.add_row(["Printer:", ""])
         summary_table.add_row(["  Brand", self.printer_brand])
         summary_table.add_row(["  Model", self.printer_model])
+        summary_table.add_row(["  Paper Setting", self.printer_paper_setting])
 
         summary_table.add_row(["", ""])
         summary_table.add_row(["Paper:", ""])

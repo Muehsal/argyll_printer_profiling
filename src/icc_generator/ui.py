@@ -58,7 +58,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def setup_ui(self):
         """creates the UI widgets"""
-        self.setWindowTitle("%s v%s" % (self.__app_name__, self.__version__))
+        self.setWindowTitle(f"{self.__app_name__} v{self.__version__}")
 
         self.create_main_menu()
         self.create_toolbars()

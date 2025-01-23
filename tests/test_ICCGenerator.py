@@ -43,7 +43,9 @@ def test_printer_brand_arg_is_none():
     """printer_brand arg is set to None will raise an TypeError."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(printer_brand=None)
-    assert str(cm.value) == "ICCGenerator.printer_brand should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.printer_brand should be a str, not NoneType: 'None'"
+    )
 
 
 def test_printer_brand_attr_is_set_to_none():
@@ -51,14 +53,18 @@ def test_printer_brand_attr_is_set_to_none():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.printer_brand = None
-    assert str(cm.value) == "ICCGenerator.printer_brand should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.printer_brand should be a str, not NoneType: 'None'"
+    )
 
 
 def test_printer_brand_arg_is_not_a_str():
     """TypeError raised if printer_brand arg value is not a str."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(printer_brand=312)
-    assert str(cm.value) == "ICCGenerator.printer_brand should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.printer_brand should be a str, not int: '312'"
+    )
 
 
 def test_printer_brand_attr_is_not_set_to_a_str():
@@ -67,7 +73,9 @@ def test_printer_brand_attr_is_not_set_to_a_str():
     with pytest.raises(TypeError) as cm:
         icc_gen.printer_brand = 443
 
-    assert str(cm.value) == "ICCGenerator.printer_brand should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.printer_brand should be a str, not int: '443'"
+    )
 
 
 def test_printer_brand_arg_is_working_properly():
@@ -96,7 +104,9 @@ def test_printer_model_arg_is_none():
     """printer_model arg is set to None will raise an TypeError."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(printer_model=None)
-    assert str(cm.value) == "ICCGenerator.printer_model should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.printer_model should be a str, not NoneType: 'None'"
+    )
 
 
 def test_printer_model_attr_is_set_to_none():
@@ -105,14 +115,18 @@ def test_printer_model_attr_is_set_to_none():
     with pytest.raises(TypeError) as cm:
         icc_gen.printer_model = None
 
-    assert str(cm.value) == "ICCGenerator.printer_model should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.printer_model should be a str, not NoneType: 'None'"
+    )
 
 
 def test_printer_model_arg_is_not_a_str():
     """TypeError raised if printer_model arg value is not a str."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(printer_model=312)
-    assert str(cm.value) == "ICCGenerator.printer_model should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.printer_model should be a str, not int: '312'"
+    )
 
 
 def test_printer_model_attr_is_not_set_to_a_str():
@@ -120,7 +134,9 @@ def test_printer_model_attr_is_not_set_to_a_str():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.printer_model = 443
-    assert str(cm.value) == "ICCGenerator.printer_model should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.printer_model should be a str, not int: '443'"
+    )
 
 
 def test_printer_model_arg_is_working_properly():
@@ -149,7 +165,9 @@ def test_paper_brand_arg_is_none():
     """paper_brand arg is set to None will raise an TypeError."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(paper_brand=None)
-    assert str(cm.value) == "ICCGenerator.paper_brand should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.paper_brand should be a str, not NoneType: 'None'"
+    )
 
 
 def test_paper_brand_attr_is_set_to_none():
@@ -157,7 +175,9 @@ def test_paper_brand_attr_is_set_to_none():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.paper_brand = None
-    assert str(cm.value) == "ICCGenerator.paper_brand should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.paper_brand should be a str, not NoneType: 'None'"
+    )
 
 
 def test_paper_brand_arg_is_not_a_str():
@@ -165,7 +185,9 @@ def test_paper_brand_arg_is_not_a_str():
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(paper_brand=312)
 
-    assert str(cm.value) == "ICCGenerator.paper_brand should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.paper_brand should be a str, not int: '312'"
+    )
 
 
 def test_paper_brand_attr_is_not_set_to_a_str():
@@ -173,7 +195,9 @@ def test_paper_brand_attr_is_not_set_to_a_str():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.paper_brand = 443
-    assert str(cm.value) == "ICCGenerator.paper_brand should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.paper_brand should be a str, not int: '443'"
+    )
 
 
 def test_paper_brand_arg_is_working_properly():
@@ -202,7 +226,9 @@ def test_paper_model_arg_is_none():
     """paper_model arg is set to None will raise an TypeError."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(paper_model=None)
-    assert str(cm.value) == "ICCGenerator.paper_model should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.paper_model should be a str, not NoneType: 'None'"
+    )
 
 
 def test_paper_model_attr_is_set_to_none():
@@ -210,14 +236,18 @@ def test_paper_model_attr_is_set_to_none():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.paper_model = None
-    assert str(cm.value) == "ICCGenerator.paper_model should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.paper_model should be a str, not NoneType: 'None'"
+    )
 
 
 def test_paper_model_arg_is_not_a_str():
     """TypeError raised if paper_model arg value is not a str."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(paper_model=312)
-    assert str(cm.value) == "ICCGenerator.paper_model should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.paper_model should be a str, not int: '312'"
+    )
 
 
 def test_paper_model_attr_is_not_set_to_a_str():
@@ -225,7 +255,9 @@ def test_paper_model_attr_is_not_set_to_a_str():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.paper_model = 443
-    assert str(cm.value) == "ICCGenerator.paper_model should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.paper_model should be a str, not int: '443'"
+    )
 
 
 def test_paper_model_arg_is_working_properly():
@@ -254,7 +286,9 @@ def test_paper_finish_arg_is_none():
     """paper_finish arg is set to None will raise an TypeError."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(paper_finish=None)
-    assert str(cm.value) == "ICCGenerator.paper_finish should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.paper_finish should be a str, not NoneType: 'None'"
+    )
 
 
 def test_paper_finish_attr_is_set_to_none():
@@ -262,14 +296,18 @@ def test_paper_finish_attr_is_set_to_none():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.paper_finish = None
-    assert str(cm.value) == "ICCGenerator.paper_finish should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.paper_finish should be a str, not NoneType: 'None'"
+    )
 
 
 def test_paper_finish_arg_is_not_a_str():
     """TypeError raised if paper_finish arg value is not a str."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(paper_finish=312)
-    assert str(cm.value) == "ICCGenerator.paper_finish should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.paper_finish should be a str, not int: '312'"
+    )
 
 
 def test_paper_finish_attr_is_not_set_to_a_str():
@@ -277,7 +315,9 @@ def test_paper_finish_attr_is_not_set_to_a_str():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.paper_finish = 443
-    assert str(cm.value) == "ICCGenerator.paper_finish should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.paper_finish should be a str, not int: '443'"
+    )
 
 
 def test_paper_finish_arg_is_working_properly():
@@ -306,7 +346,9 @@ def test_ink_brand_arg_is_none():
     """ink_brand arg is set to None will raise an TypeError."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(ink_brand=None)
-    assert str(cm.value) == "ICCGenerator.ink_brand should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.ink_brand should be a str, not NoneType: 'None'"
+    )
 
 
 def test_ink_brand_attr_is_set_to_none():
@@ -314,14 +356,18 @@ def test_ink_brand_attr_is_set_to_none():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.ink_brand = None
-    assert str(cm.value) == "ICCGenerator.ink_brand should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.ink_brand should be a str, not NoneType: 'None'"
+    )
 
 
 def test_ink_brand_arg_is_not_a_str():
     """TypeError raised if ink_brand arg value is not a str."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(ink_brand=312)
-    assert str(cm.value) == "ICCGenerator.ink_brand should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.ink_brand should be a str, not int: '312'"
+    )
 
 
 def test_ink_brand_attr_is_not_set_to_a_str():
@@ -329,7 +375,9 @@ def test_ink_brand_attr_is_not_set_to_a_str():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.ink_brand = 443
-    assert str(cm.value) == "ICCGenerator.ink_brand should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.ink_brand should be a str, not int: '443'"
+    )
 
 
 def test_ink_brand_arg_is_working_properly():
@@ -365,9 +413,8 @@ def test_paper_size_attr_is_set_to_none():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.paper_size = None
-    assert (
-        str(cm.value)
-        == "ICCGenerator.paper_size should be a PaperSize instance, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.paper_size should be a PaperSize instance, not NoneType: 'None'"
     )
 
 
@@ -375,9 +422,8 @@ def test_paper_size_arg_is_not_a_paper_size_object():
     """TypeError raised if paper_size arg value is not a PaperSize instance."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(paper_size=312)
-    assert (
-        str(cm.value)
-        == "ICCGenerator.paper_size should be a PaperSize instance, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.paper_size should be a PaperSize instance, not int: '312'"
     )
 
 
@@ -386,9 +432,8 @@ def test_paper_size_attr_is_not_set_to_a_paper_size_instance():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.paper_size = 443
-    assert (
-        str(cm.value)
-        == "ICCGenerator.paper_size should be a PaperSize instance, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.paper_size should be a PaperSize instance, not int: '443'"
     )
 
 
@@ -418,7 +463,9 @@ def test_number_of_pages_arg_is_none():
     """number_of_pages arg is set to None will raise an TypeError"""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(number_of_pages=None)
-    assert str(cm.value) == "ICCGenerator.number_of_pages should be a int, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.number_of_pages should be a int, not NoneType: 'None'"
+    )
 
 
 def test_number_of_pages_attr_is_set_to_none():
@@ -426,14 +473,18 @@ def test_number_of_pages_attr_is_set_to_none():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.number_of_pages = None
-    assert str(cm.value) == "ICCGenerator.number_of_pages should be a int, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.number_of_pages should be a int, not NoneType: 'None'"
+    )
 
 
 def test_number_of_pages_arg_is_not_a_str():
     """TypeError raised if number_of_pages arg value is not a str."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(number_of_pages="312")
-    assert str(cm.value) == "ICCGenerator.number_of_pages should be a int, not str"
+    assert str(cm.value) == (
+        "ICCGenerator.number_of_pages should be a int, not str: '312'"
+    )
 
 
 def test_number_of_pages_attr_is_not_set_to_a_str():
@@ -441,7 +492,9 @@ def test_number_of_pages_attr_is_not_set_to_a_str():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.number_of_pages = "443"
-    assert str(cm.value) == "ICCGenerator.number_of_pages should be a int, not str"
+    assert str(cm.value) == (
+        "ICCGenerator.number_of_pages should be a int, not str: '443'"
+    )
 
 
 def test_number_of_pages_arg_is_working_properly():
@@ -471,7 +524,9 @@ def test_copyright_info_arg_is_none():
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(copyright_info=None)
 
-    assert str(cm.value) == "ICCGenerator.copyright_info should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.copyright_info should be a str, not NoneType: 'None'"
+    )
 
 
 def test_copyright_info_attr_is_set_to_none():
@@ -479,14 +534,18 @@ def test_copyright_info_attr_is_set_to_none():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.copyright_info = None
-    assert str(cm.value) == "ICCGenerator.copyright_info should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.copyright_info should be a str, not NoneType: 'None'"
+    )
 
 
 def test_copyright_info_arg_is_not_a_str():
     """TypeError raised if copyright_info arg value is not a str."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(copyright_info=312)
-    assert str(cm.value) == "ICCGenerator.copyright_info should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.copyright_info should be a str, not int: '312'"
+    )
 
 
 def test_copyright_info_attr_is_not_set_to_a_str():
@@ -494,7 +553,9 @@ def test_copyright_info_attr_is_not_set_to_a_str():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.copyright_info = 443
-    assert str(cm.value) == "ICCGenerator.copyright_info should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.copyright_info should be a str, not int: '443'"
+    )
 
 
 def test_copyright_info_arg_is_working_properly():
@@ -524,9 +585,9 @@ def test_precondition_profile_path_arg_is_none():
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(precondition_profile_path=None)
 
-    assert (
-        str(cm.value)
-        == "ICCGenerator.precondition_profile_path should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.precondition_profile_path should be a str, "
+        "not NoneType: 'None'"
     )
 
 
@@ -536,9 +597,9 @@ def test_precondition_profile_path_attr_is_set_to_none():
     with pytest.raises(TypeError) as cm:
         icc_gen.precondition_profile_path = None
 
-    assert (
-        str(cm.value)
-        == "ICCGenerator.precondition_profile_path should be a str, not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.precondition_profile_path should be a str, "
+        "not NoneType: 'None'"
     )
 
 
@@ -546,9 +607,8 @@ def test_precondition_profile_path_arg_is_not_a_str():
     """TypeError raised if precondition_profile_path arg value is not a str."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(precondition_profile_path=312)
-    assert (
-        str(cm.value)
-        == "ICCGenerator.precondition_profile_path should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.precondition_profile_path should be a str, not int: '312'"
     )
 
 
@@ -558,9 +618,8 @@ def test_precondition_profile_path_attr_is_not_set_to_a_str():
     with pytest.raises(TypeError) as cm:
         icc_gen.precondition_profile_path = 443
 
-    assert (
-        str(cm.value)
-        == "ICCGenerator.precondition_profile_path should be a str, not int"
+    assert str(cm.value) == (
+        "ICCGenerator.precondition_profile_path should be a str, not int: '443'"
     )
 
 
@@ -592,7 +651,7 @@ def test_use_high_density_mode_arg_is_none():
         _ = ICCGenerator(use_high_density_mode=None)
     assert str(cm.value) == (
         "ICCGenerator.use_high_density_mode should be a bool (True or False), "
-        "not NoneType"
+        "not NoneType: 'None'"
     )
 
 
@@ -604,7 +663,7 @@ def test_use_high_density_mode_attr_is_set_to_none():
 
     assert str(cm.value) == (
         "ICCGenerator.use_high_density_mode should be a bool (True or False), "
-        "not NoneType"
+        "not NoneType: 'None'"
     )
 
 
@@ -613,7 +672,8 @@ def test_use_high_density_mode_arg_is_not_a_bool():
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(use_high_density_mode=312)
     assert str(cm.value) == (
-        "ICCGenerator.use_high_density_mode should be a bool (True or False), not int"
+        "ICCGenerator.use_high_density_mode should be a bool (True or False), "
+        "not int: '312'"
     )
 
 
@@ -624,7 +684,8 @@ def test_use_high_density_mode_attr_is_not_set_to_a_str():
         icc_gen.use_high_density_mode = 443
 
     assert str(cm.value) == (
-        "ICCGenerator.use_high_density_mode should be a bool (True or False), not int"
+        "ICCGenerator.use_high_density_mode should be a bool (True or False), "
+        "not int: '443'"
     )
 
 
@@ -653,10 +714,7 @@ def test_initializing_non_default_values():
 
     assert icc_gen.profile_date == date_str
     assert icc_gen.profile_time == time_str
-    profile_name = "Epson_ET-8550_Kodak_UPPP_Glossy_A4_CanonInk_%s_%s" % (
-        date_str,
-        time_str,
-    )
+    profile_name = f"Epson_ET-8550_Default_Kodak_UPPP_Glossy_A4_CanonInk_{date_str}_{time_str}"
     assert icc_gen.profile_name == profile_name
 
 
@@ -704,9 +762,8 @@ def test_gray_patch_count_arg_is_none():
     """gray_patch_count arg is set to None will raise an TypeError."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(gray_patch_count=None)
-    assert (
-        str(cm.value) == "ICCGenerator.gray_patch_count should be an int, "
-        "not NoneType"
+    assert str(cm.value) == (
+        "ICCGenerator.gray_patch_count should be an int, not NoneType: 'None'"
     )
 
 
@@ -716,7 +773,7 @@ def test_gray_patch_count_attr_is_set_to_none():
     with pytest.raises(TypeError) as cm:
         icc_gen.gray_patch_count = None
     assert str(cm.value) == (
-        "ICCGenerator.gray_patch_count should be an int, not NoneType"
+        "ICCGenerator.gray_patch_count should be an int, not NoneType: 'None'"
     )
 
 
@@ -724,7 +781,9 @@ def test_gray_patch_count_arg_is_not_an_int():
     """TypeError raised if gray_patch_count arg value is not an int."""
     with pytest.raises(TypeError) as cm:
         _ = ICCGenerator(gray_patch_count="312")
-    assert str(cm.value) == "ICCGenerator.gray_patch_count should be an int, " "not str"
+    assert str(cm.value) == (
+        "ICCGenerator.gray_patch_count should be an int, not str: '312'"
+    )
 
 
 def test_gray_patch_count_attr_is_not_set_to_an_int():
@@ -732,7 +791,9 @@ def test_gray_patch_count_attr_is_not_set_to_an_int():
     icc_gen = ICCGenerator()
     with pytest.raises(TypeError) as cm:
         icc_gen.gray_patch_count = "443"
-    assert str(cm.value) == "ICCGenerator.gray_patch_count should be an int, " "not str"
+    assert str(cm.value) == (
+        "ICCGenerator.gray_patch_count should be an int, not str: '443'"
+    )
 
 
 def test_gray_patch_count_arg_is_working_properly():
@@ -853,10 +914,9 @@ def test_patch_count_is_updating_properly():
 def test_profile_name_template_default_value():
     """profile_name_template default value is correct."""
     icc_gen = ICCGenerator()
-    assert (
-        icc_gen.profile_name_template
-        == "{printer_brand}_{printer_model}_{paper_brand}_"
-        "{paper_model}_{paper_finish}_{paper_size}_{ink_brand}_"
+    assert icc_gen.profile_name_template == (
+        "{printer_brand}_{printer_model}_{printer_paper_setting}_"
+        "{paper_brand}_{paper_model}_{paper_finish}_{paper_size}_{ink_brand}_"
         "{profile_date}_{profile_time}"
     )
 
@@ -870,10 +930,7 @@ def test_profile_name_default_value_is_properly_calculated():
 
     assert icc_gen.profile_date == date_str
     assert icc_gen.profile_time == time_str
-    profile_name = "Epson_ET-8550_Kodak_UPPP_Glossy_A4_CanonInk_%s_%s" % (
-        date_str,
-        time_str,
-    )
+    profile_name = f"Epson_ET-8550_Default_Kodak_UPPP_Glossy_A4_CanonInk_{date_str}_{time_str}"
     assert icc_gen.profile_name == profile_name
 
 
@@ -1576,9 +1633,8 @@ def test_color_correct_image_printer_profile_path_does_not_exist(
             intent=intent,
         )
 
-    assert (
-        str(cm.value)
-        == "printer_profile_path doesn't exists: %s" % printer_profile_path
+    assert str(cm.value) == (
+        f"printer_profile_path doesn't exists: {printer_profile_path}"
     )
 
 
@@ -1604,10 +1660,8 @@ def test_color_correct_image_printer_profile_path_is_not_an_icc_or_icm_file(
             intent=intent,
         )
 
-    assert (
-        str(cm.value)
-        == "printer_profile_path should be a valid ICC/ICM file: %s"
-        % printer_profile_path
+    assert str(cm.value) == (
+        f"printer_profile_path should be a valid ICC/ICM file: {printer_profile_path}"
     )
 
 
@@ -1675,7 +1729,7 @@ def test_color_correct_image_input_image_does_not_exist(
             intent=intent,
         )
 
-    assert str(cm.value) == "input_image_path doesn't exists: %s" % input_image_path
+    assert str(cm.value) == f"input_image_path doesn't exists: {input_image_path}"
 
 
 def test_color_correct_image_input_image_path_is_not_an_jpg_or_tif_file(
@@ -1698,9 +1752,8 @@ def test_color_correct_image_input_image_path_is_not_an_jpg_or_tif_file(
             intent=intent,
         )
 
-    assert (
-        str(cm.value)
-        == "input_image_path should be a valid JPG/TIF file: %s" % input_image_path
+    assert str(cm.value) == (
+        f"input_image_path should be a valid JPG/TIF file: {input_image_path}"
     )
 
 
@@ -1724,7 +1777,7 @@ def test_color_correct_image_output_image_path_is_skipped(
     )
 
     input_image_name, input_image_ext = os.path.splitext(input_image_path)
-    expected_path = "%s_corrected_1%s" % (input_image_name, input_image_ext)
+    expected_path = f"{input_image_name}_corrected_1{input_image_ext}"
     assert any(
         expected_path in arg
         for arg in patch_run_external_process_class_method_version[0]
@@ -1751,7 +1804,7 @@ def test_color_correct_image_output_image_path_is_none(
     )
 
     input_image_name, input_image_ext = os.path.splitext(input_image_path)
-    expected_path = "%s_corrected_1%s" % (input_image_name, input_image_ext)
+    expected_path = f"{input_image_name}_corrected_1{input_image_ext}"
     assert any(
         expected_path in arg
         for arg in patch_run_external_process_class_method_version[0]
@@ -1777,9 +1830,8 @@ def test_color_correct_image_output_image_path_is_not_a_tif_file(file_collector)
             intent=intent,
         )
 
-    assert (
-        str(cm.value)
-        == "output_image_path should be a valid JPG/TIF file: %s" % output_image_path
+    assert str(cm.value) == (
+        f"output_image_path should be a valid JPG/TIF file: {output_image_path}"
     )
 
 
@@ -1849,7 +1901,7 @@ def test_color_correct_image_intent_is_not_a_str(file_collector):
             intent=intent,
         )
 
-    assert str(cm.value) == "intent should be a str, not int"
+    assert str(cm.value) == "intent should be a str, not int: '123'"
 
 
 def test_color_correct_image_intent_is_not_correct_enum_value(file_collector):
@@ -1871,7 +1923,7 @@ def test_color_correct_image_intent_is_not_correct_enum_value(file_collector):
             intent=intent,
         )
 
-    assert str(cm.value) == "intent should be one of p, r, s, a, not %s" % intent
+    assert str(cm.value) == f"intent should be one of p, r, s, a, not {intent}"
 
 
 def test_color_correct_image_intent_is_working_properly(
@@ -1946,8 +1998,8 @@ def test_color_correct_image_image_profile_is_not_a_str(file_collector):
             intent=intent,
         )
 
-    assert (
-        str(cm.value) == "image_profile should be one of sRGB or AdobeRGB, not 123123"
+    assert str(cm.value) == (
+        "image_profile should be one of sRGB or AdobeRGB, not int: '123123'"
     )
 
 
@@ -1970,9 +2022,8 @@ def test_color_correct_image_image_profile_is_not_correct_enum_value(file_collec
             intent=intent,
         )
 
-    assert (
-        str(cm.value)
-        == "image_profile should be one of sRGB or AdobeRGB, not %s" % image_profile
+    assert str(cm.value) == (
+        f"image_profile should be one of sRGB or AdobeRGB, not {image_profile}"
     )
 
 
@@ -2079,15 +2130,16 @@ def test_save_settings_is_working_properly(file_collector, patch_run_external_pr
         data = json.load(f)
 
     assert data is not None
-    icc_gen.ink_brand = data["ink_brand"]
-    icc_gen.paper_brand = data["paper_brand"]
-    icc_gen.paper_finish = data["paper_finish"]
-    icc_gen.paper_model = data["paper_model"]
-    icc_gen.paper_size.name = data["paper_size"]
-    icc_gen.printer_brand = data["printer_brand"]
-    icc_gen.printer_model = data["printer_model"]
-    icc_gen.profile_date = data["profile_date"]
-    icc_gen.profile_time = data["profile_time"]
+    assert icc_gen.ink_brand == data["ink_brand"]
+    assert icc_gen.paper_brand == data["paper_brand"]
+    assert icc_gen.paper_finish == data["paper_finish"]
+    assert icc_gen.paper_model == data["paper_model"]
+    assert icc_gen.paper_size.name == data["paper_size"]
+    assert icc_gen.printer_brand == data["printer_brand"]
+    assert icc_gen.printer_model == data["printer_model"]
+    assert icc_gen.printer_paper_setting == data["printer_paper_setting"]
+    assert icc_gen.profile_date == data["profile_date"]
+    assert icc_gen.profile_time == data["profile_time"]
 
 
 def test_load_settings_path_is_skipped():
@@ -2145,8 +2197,9 @@ def test_load_settings_is_working_properly(file_collector):
     icc_gen.paper_finish = "Glossy"
     icc_gen.paper_model = "HGPIP"
     icc_gen.paper_size = PaperSizeLibrary.A4
-    icc_gen.printer_brand = "Epson"
+    icc_gen.printer_brand = "RandomPrinterBrand"
     icc_gen.printer_model = "L800"
+    icc_gen.printer_paper_setting = "Premium_Glossy"
 
     path = tempfile.mktemp()
     file_collector.append(path)
@@ -2158,15 +2211,16 @@ def test_load_settings_is_working_properly(file_collector):
     icc_gen2 = ICCGenerator()
     icc_gen2.load_settings(path)
 
-    icc_gen.ink_brand = icc_gen2.ink_brand
-    icc_gen.paper_brand = icc_gen2.paper_brand
-    icc_gen.paper_finish = icc_gen2.paper_finish
-    icc_gen.paper_model = icc_gen2.paper_model
-    icc_gen.paper_size = icc_gen2.paper_size
-    icc_gen.printer_brand = icc_gen2.printer_brand
-    icc_gen.printer_model = icc_gen2.printer_model
-    icc_gen.profile_date = icc_gen2.profile_date
-    icc_gen.profile_time = icc_gen2.profile_time
+    assert icc_gen.ink_brand == icc_gen2.ink_brand
+    assert icc_gen.paper_brand == icc_gen2.paper_brand
+    assert icc_gen.paper_finish == icc_gen2.paper_finish
+    assert icc_gen.paper_model == icc_gen2.paper_model
+    assert icc_gen.paper_size == icc_gen2.paper_size
+    assert icc_gen.printer_brand == icc_gen2.printer_brand
+    assert icc_gen.printer_model == icc_gen2.printer_model
+    assert icc_gen.printer_paper_setting == icc_gen2.printer_paper_setting
+    assert icc_gen.profile_date == icc_gen2.profile_date
+    assert icc_gen.profile_time == icc_gen2.profile_time
 
 
 def test_run_external_process_will_use_os_system_if_shell_is_true(
@@ -2343,6 +2397,7 @@ def test_summary_prints_out_summary():
     icc_gen = ICCGenerator()
     icc_gen.printer_brand = "RandomPrinterBrand"
     icc_gen.printer_model = "ET-8550"
+    icc_gen.printer_paper_setting = "VFA"
     icc_gen.ink_brand = "Epson"
     icc_gen.paper_brand = "Epson"
     icc_gen.paper_model = "VelvetFineArt"
@@ -2363,6 +2418,8 @@ def test_summary_prints_out_summary():
         "RandomPrinterBrand",
         "Model",
         "ET-8550",
+        "Paper Setting",
+        "VFA",
         "Paper:",
         "Finish",
         "Satin",
@@ -2389,3 +2446,54 @@ def test_summary_prints_out_summary():
         f"{icc_gen.output_path}",
     ]
     assert all(d in result for d in expected_data)
+
+
+def test_printer_paper_setting_arg_is_skipped():
+    """printer_paper_setting arg can be skipped."""
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand")
+    assert icc_gen.printer_paper_setting is "Default"  # default value
+
+
+def test_printer_paper_setting_arg_is_none():
+    """printer_paper_setting arg can be None."""
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand", printer_paper_setting=None)
+    assert icc_gen.printer_paper_setting is "Default"
+
+
+def test_printer_paper_setting_attr_can_be_set_to_none():
+    """printer_paper_setting attr can be set to None."""
+    icc_gen = ICCGenerator(
+        printer_brand="RandomPrinterBrand",
+        printer_paper_setting="VFA"
+    )
+    assert icc_gen.printer_paper_setting != ""
+    icc_gen.printer_paper_setting = None
+    assert icc_gen.printer_paper_setting == "Default"
+
+
+def test_printer_paper_setting_arg_is_not_a_str():
+    """printer_paper_setting arg is not a str raises TypeError."""
+    with pytest.raises(TypeError) as cm:
+        ICCGenerator(printer_brand="RandomPrinterBrand", printer_paper_setting=123)
+    assert str(cm.value) == (
+        "ICCGenerator.printer_paper_setting should be a str, not int: '123'"
+    )
+
+
+def test_printer_paper_setting_attr_is_not_a_str():
+    """printer_paper_setting attr is not a str raises TypeError."""
+    icc_gen = ICCGenerator(printer_brand="RandomPrinterBrand", printer_paper_setting="VFA")
+    with pytest.raises(TypeError) as cm:
+        icc_gen.printer_paper_setting = 123
+    assert str(cm.value) == (
+        "ICCGenerator.printer_paper_setting should be a str, not int: '123'"
+    )
+
+
+def test_printer_paper_setting_is_used_in_profile_name():
+    """printer_paper_setting_is_used_in_profile_name."""
+    icc_gen = ICCGenerator(
+        printer_brand="RandomPrinterBrand", printer_paper_setting="RandomPaperSetting"
+    )
+    assert "RandomPaperSetting" in icc_gen.profile_name
+    

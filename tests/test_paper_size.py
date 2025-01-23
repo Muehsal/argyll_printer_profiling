@@ -34,7 +34,7 @@ def test_name_arg_is_not_a_str():
     """TypeError raised if name arg is not a str."""
     with pytest.raises(TypeError) as cm:
         _ = PaperSize(name=123, width=210, height=297)
-    assert str(cm.value) == "PaperSize.name should be a str, not int"
+    assert str(cm.value) == "PaperSize.name should be a str, not int: '123'"
 
 
 def test_name_attr_is_not_a_str():
@@ -42,7 +42,7 @@ def test_name_attr_is_not_a_str():
     a4 = PaperSize(name="a4", width=210, height=297)
     with pytest.raises(TypeError) as cm:
         a4.name = 123
-    assert str(cm.value) == "PaperSize.name should be a str, not int"
+    assert str(cm.value) == "PaperSize.name should be a str, not int: '123'"
 
 
 def test_width_arg_is_skipped():
@@ -66,7 +66,7 @@ def test_width_arg_is_not_a_int_or_float():
     """TypeError raised if width arg is not an int or float."""
     with pytest.raises(TypeError) as cm:
         _ = PaperSize(name="A4", width="210", height=297)
-    assert str(cm.value) == "PaperSize.width should be a int or float, not str"
+    assert str(cm.value) == "PaperSize.width should be a int or float, not str: '210'"
 
 
 def test_width_attr_is_not_a_int_or_float():
@@ -74,7 +74,7 @@ def test_width_attr_is_not_a_int_or_float():
     a4 = PaperSize(name="A4", width=210, height=297)
     with pytest.raises(TypeError) as cm:
         a4.width = "210"
-    assert str(cm.value) == "PaperSize.width should be a int or float, not str"
+    assert str(cm.value) == "PaperSize.width should be a int or float, not str: '210'"
 
 
 @pytest.mark.parametrize("width", [0, -1, -212.3, -0.000001])
@@ -94,8 +94,8 @@ def test_width_attr_is_not_positive(width):
     a4 = PaperSize(name="A4", width=210, height=297)
     with pytest.raises(ValueError) as cm:
         a4.width = width
-    assert str(cm.value) == "PaperSize.width should be a positive value, not {}".format(
-        width
+    assert str(cm.value) == (
+        f"PaperSize.width should be a positive value, not {width}"
     )
 
 
@@ -120,7 +120,7 @@ def test_height_arg_is_not_a_int_or_float():
     """TypeError raised if height arg is not an int or float."""
     with pytest.raises(TypeError) as cm:
         _ = PaperSize(name="A4", width=210, height="297")
-    assert str(cm.value) == "PaperSize.height should be a int or float, not str"
+    assert str(cm.value) == "PaperSize.height should be a int or float, not str: '297'"
 
 
 def test_height_attr_is_not_a_int_or_float():
@@ -128,7 +128,7 @@ def test_height_attr_is_not_a_int_or_float():
     a4 = PaperSize(name="A4", width=210, height=297)
     with pytest.raises(TypeError) as cm:
         a4.height = "297"
-    assert str(cm.value) == "PaperSize.height should be a int or float, not str"
+    assert str(cm.value) == "PaperSize.height should be a int or float, not str: '297'"
 
 
 @pytest.mark.parametrize("height", [0, -1, -212.3, -0.000001])
