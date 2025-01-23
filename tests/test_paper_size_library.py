@@ -96,7 +96,7 @@ def test_get_paper_size_paper_size_name_is_not_a_str():
     with pytest.raises(TypeError) as cm:
         _ = PaperSizeLibrary.get_paper_size(2314)
 
-    assert str(cm.value) == "paper_size_name should be a str, not int"
+    assert str(cm.value) == "paper_size_name should be a str, not int: '2314'"
 
 
 def test_get_paper_size_paper_size_name_does_not_exist_in_the_library():

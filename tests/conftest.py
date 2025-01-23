@@ -24,7 +24,7 @@ def file_collector():
         f = os.path.expandvars(os.path.expanduser(f))
         if not os.path.exists(f):
             continue
-        logger.debug("removing: %s" % f)
+        logger.debug(f"removing: {f}")
         if os.path.isdir(f):
             try:
                 os.removedirs(f)
@@ -33,8 +33,8 @@ def file_collector():
                 # the directory is not empty
                 # remove all the files under it
                 # and then try again
-                for d in glob.glob("%s/*" % f):
-                    # print("%s" % d)
+                for d in glob.glob(f"{f}/*"):
+                    # print(f"{d}")
                     os.remove(d)
                 try:
                     os.removedirs(f)
